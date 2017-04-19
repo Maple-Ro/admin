@@ -13,11 +13,14 @@ const app = dva({
   },
 })
 
-// 2. Model
+// 2. Plugins
+app.use(createLoading());
+
+// 3. Model
 app.model(require('./models/app'))
 
-// 3. Router
+// 4. Router
 app.router(require('./router'))
 
-// 4. Start
+// 5. Start
 app.start('#root')

@@ -1,25 +1,15 @@
-import { request } from '../utils'
+import { get,post } from '../utils'
 
 export async function login (params) {
-  return request({
-    url: '/api/login',
-    method: 'post',
+  return post('/api/login',{
     data: params,
   })
 }
 
-export async function logout (params) {
-  return request({
-    url: '/api/logout',
-    method: 'post',
-    data: params,
-  })
+export async function logout () {
+  return get('/api/logout',{})
 }
 
-export async function userInfo (params) {
-  return request({
-    url: '/api/userInfo',
-    method: 'get',
-    data: params,
-  })
+export async function userInfo () {
+  return get('/api/userInfo',{})
 }

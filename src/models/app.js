@@ -23,19 +23,6 @@ export default {
         text: 'User Manage',
         route: 'users',
       },
-      UIElement: {
-        text: 'UI Element',
-        route: 'UIElement',
-      },
-      UIElementIconfont: {
-        text: 'Iconfont',
-        route: 'UIElement/iconfont',
-        parent: 'UIElement',
-      },
-      chart: {
-        text: 'Rechart',
-        route: 'chart',
-      },
     },
     userPermissions: [],
   },
@@ -48,9 +35,7 @@ export default {
     },
   },
   effects: {
-    *login ({
-      payload,
-    }, { call, put }) {
+    *login ({payload,}, { call, put }) {
       yield put({ type: 'showLoginButtonLoading' })
       const { success, userPermissions, username } = yield call(login, parse(payload))
       if (success) {
@@ -63,14 +48,10 @@ export default {
             },
           } })
       } else {
-        yield put({
-          type: 'loginFail',
-        })
+        yield put({type: 'loginFail',})
       }
     },
-    *queryUser ({
-      payload,
-    }, { call, put }) {
+    *queryUser ({payload,}, { call, put }) {
       const { success, userPermissions, username } = yield call(userInfo, parse(payload))
       if (success) {
         yield put({
@@ -84,9 +65,7 @@ export default {
         })
       }
     },
-    *logout ({
-      payload,
-    }, { call, put }) {
+    *logout ({payload,}, { call, put }) {
       const data = yield call(logout, parse(payload))
       if (data.success) {
         yield put({
@@ -94,32 +73,24 @@ export default {
         })
       }
     },
-    *switchSider ({
-      payload,
-    }, { put }) {
+    *switchSider ({payload,}, { put }) {
       yield put({
         type: 'handleSwitchSider',
       })
     },
-    *changeTheme ({
-      payload,
-    }, { put }) {
+    *changeTheme ({payload,}, { put }) {
       yield put({
         type: 'handleChangeTheme',
       })
     },
-    *changeNavbar ({
-      payload,
-    }, { put }) {
+    *changeNavbar ({payload,}, { put }) {
       if (document.body.clientWidth < 769) {
         yield put({ type: 'showNavbar' })
       } else {
         yield put({ type: 'hideNavbar' })
       }
     },
-    *switchMenuPopver ({
-      payload,
-    }, { put }) {
+    *switchMenuPopver ({payload,}, { put }) {
       yield put({
         type: 'handleSwitchMenuPopver',
       })

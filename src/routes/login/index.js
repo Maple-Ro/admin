@@ -26,7 +26,7 @@ const login = ({
     <div className={styles.form}>
       <div className={styles.logo}>
         <img alt={'logo'} src={config.logoSrc} />
-        <span>Ant Design</span>
+        <span>MapleImage</span>
       </div>
       <form>
         <FormItem hasFeedback>
@@ -34,30 +34,24 @@ const login = ({
             rules: [
               {
                 required: true,
-                message: '请填写用户名',
+                message: 'username is required',
               },
             ],
-          })(<Input size="large" onPressEnter={handleOk} placeholder="用户名" />)}
+          })(<Input size="large" onPressEnter={handleOk} placeholder="Username" />)}
         </FormItem>
         <FormItem hasFeedback>
           {getFieldDecorator('password', {
             rules: [
               {
                 required: true,
-                message: '请填写密码',
+                message: 'password is required',
               },
             ],
-          })(<Input size="large" type="password" onPressEnter={handleOk} placeholder="密码" />)}
+          })(<Input size="large" type="password" onPressEnter={handleOk} placeholder="Password" />)}
         </FormItem>
         <Row>
-          <Button type="primary" size="large" onClick={handleOk} loading={loginButtonLoading}>
-            登录
-          </Button>
+          <Button type="primary" size="large" onClick={handleOk} loading={loginButtonLoading}>Login in</Button>
         </Row>
-        <p>
-          <span>账号：guest</span>
-          <span>密码：guest</span>
-        </p>
       </form>
     </div>
   )
