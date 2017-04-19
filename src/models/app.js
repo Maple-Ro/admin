@@ -6,25 +6,14 @@ export default {
   state: {
     login: false,
     user: {
-      name: '吴彦祖',
+      name: 'Endless',
     },
     loginButtonLoading: false,
     menuPopoverVisible: false,
     siderFold: localStorage.getItem('antdAdminSiderFold') === 'true',
     darkTheme: localStorage.getItem('antdAdminDarkTheme') !== 'false',
     isNavbar: document.body.clientWidth < 769,
-    navOpenKeys: [],
-    permissions: {
-      dashboard: {
-        text: 'Dashboard',
-        route: 'dashboard',
-      },
-      users: {
-        text: 'User Manage',
-        route: 'users',
-      },
-    },
-    userPermissions: [],
+    navOpenKeys: []
   },
   subscriptions: {
     setup ({ dispatch }) {
@@ -37,12 +26,11 @@ export default {
   effects: {
     *login ({payload,}, { call, put }) {
       yield put({ type: 'showLoginButtonLoading' })
-      const { success, userPermissions, username } = yield call(login, parse(payload))
+      const { success, username } = yield call(login, parse(payload))
       if (success) {
         yield put({
           type: 'loginSuccess',
           payload: {
-            userPermissions,
             user: {
               name: username,
             },
@@ -52,12 +40,11 @@ export default {
       }
     },
     *queryUser ({payload,}, { call, put }) {
-      const { success, userPermissions, username } = yield call(userInfo, parse(payload))
+      const { success, username } = yield call(userInfo, parse(payload))
       if (success) {
         yield put({
           type: 'loginSuccess',
           payload: {
-            userPermissions,
             user: {
               name: username,
             },

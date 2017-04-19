@@ -1,16 +1,15 @@
 import axios from 'axios';
-import { message } from 'antd';
-import { stringify } from 'qs';
-import Cookie from 'cookie';
+import {message} from 'antd';
+import {stringify} from 'qs';
 import{apiURL} from './config';
 
 //message 全局配置
 message.config({
   top: 50
-})
+});
 
 axios.defaults.baseURL = apiURL;
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
 //axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('Authorization')
 
 const fetch = (url, options) => {
@@ -31,18 +30,19 @@ const fetch = (url, options) => {
     default:
       return axios(options)
   }
-}
+};
 
 function checkStatus(res) {
   if (res.status >= 200 && res.status < 300) {
+    console.log(res);
     return res
   }
 }
 
 function handelData(res) {
   const data = res.data
-
-  if(data.code !== 200) {
+  console.log(data);
+  if(data.status !== 200) {
     message.error(data.msg)
   }
   return data;
@@ -68,11 +68,11 @@ export default function request(url, options) {
     .catch(handleError)
 }
 
-export function get(url, options) {
+export function get(url, options=null) {
   return request(url, {...options, method: 'get'})
 }
 
-export function post(url, options) {
+export function post(url, options=null) {
   return request(url, {...options, method: 'post'})
 }
 
