@@ -1,4 +1,4 @@
-import { login, userInfo, logout } from '../services/app'
+import { login,queryWeather, logout } from '../services/app'
 import { parse } from 'qs'
 
 export default {
@@ -8,6 +8,13 @@ export default {
     user: {
       name: 'Endless',
     },
+    // weather: {
+    //   city: 'Shanghai',
+    //   temperature: '5',
+    //   name: 'sun',
+    //   icon: 'http://www.zuimeitianqi.com/res/icon/0_big.png',
+    //   dateTime: new Date().format('MM-dd hh:mm'),
+    // },
     loginButtonLoading: false,
     menuPopoverVisible: false,
     siderFold: localStorage.getItem('antdAdminSiderFold') === 'true',
@@ -17,7 +24,7 @@ export default {
   },
   subscriptions: {
     setup ({ dispatch }) {
-      dispatch({ type: 'queryUser' })
+      dispatch({ type: 'queryWeather' }); //获取天气信息等
       window.onresize = () => {
         dispatch({ type: 'changeNavbar' })
       }
@@ -39,16 +46,12 @@ export default {
         yield put({type: 'loginFail',})
       }
     },
-    *queryUser ({payload,}, { call, put }) {
-      const { success, username } = yield call(userInfo, parse(payload))
+    *queryWeather ({payload,}, { call, put }) {
+      const { success, data } = yield call(queryWeather, parse(payload))
       if (success) {
         yield put({
-          type: 'loginSuccess',
-          payload: {
-            user: {
-              name: username,
-            },
-          },
+          type: 'loadWeatherSuccess',
+          payload: {data},
         })
       }
     },
@@ -96,6 +99,11 @@ export default {
       return {
         ...state,
         login: false,
+      }
+    },
+    loadWeatherSuccess(state){
+      return {
+        ...state
       }
     },
     loginFail (state) {

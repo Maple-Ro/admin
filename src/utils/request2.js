@@ -55,13 +55,12 @@ function handleError(error) {
   } else if(data.error) {
     message.error(`${data.error}：${data.error_description}`, 5)
   } else {
-    message.error('未知错误！', 5)
+    message.error('unknown error！', 5)
   }
   return { success: false }
 }
 
 export default function request(url, options) {
-
   return fetch(url, options)
     .then(checkStatus)
     .then(handelData)

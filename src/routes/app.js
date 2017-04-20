@@ -78,7 +78,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
           </div>
         </div> :
         <div className={styles.spin}>
-          <Spin tip="加载用户信息..." spinning={loading} size="large">
+          <Spin tip="loading site info..." spinning={loading} size="large">
             <Login {...loginProps} />
           </Spin>
         </div>}

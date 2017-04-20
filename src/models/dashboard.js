@@ -1,4 +1,4 @@
-import { query } from '../services/dashboard';
+import { info } from '../services/dashboard';
 
 // zuimei 摘自 http://www.zuimeitianqi.com/res/js/index.js
 
@@ -28,7 +28,7 @@ export default {
   },
   subscriptions: {
     setup ({ dispatch }) {
-      dispatch({ type: 'query' })
+      dispatch({ type: 'info' })
     },
   },
   effects: {},
