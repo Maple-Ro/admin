@@ -57,7 +57,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
   return (
     <div>
       <Helmet>
-        <title>ANTD ADMIN</title>
+        <title>MAPLE ADMIN</title>
         <link rel="icon" href={config.logoSrc} type="image/x-icon" />
         {config.iconFontUrl ? <script src={config.iconFontUrl}></script> : ''}
       </Helmet>

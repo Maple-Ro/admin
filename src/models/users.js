@@ -2,9 +2,7 @@ import { create, remove, update, query } from '../services/users'
 import { parse } from 'qs'
 
 export default {
-
   namespace: 'users',
-
   state: {
     list: [],
     currentItem: {},
@@ -95,9 +93,7 @@ export default {
         })
       }
     },
-    *switchIsMotion ({
-      payload,
-    }, { put }) {
+    *switchIsMotion ({payload,}, { put }) {
       yield put({
         type: 'handleSwitchIsMotion',
       })
