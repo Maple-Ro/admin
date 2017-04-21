@@ -1,9 +1,9 @@
 import React, {PropTypes} from "react";
 import {connect} from "dva";
 import {Card, Col, Row} from "antd";
-import {Browser, Cpu, User, Weather} from "./components";
+import {NumberCard,Browser, Cpu, User, Weather} from "./components";
 import styles from "./index.less";
-import {color} from "../../utils";
+import {color,log} from "../../utils";
 
 const bodyStyle = {
   bodyStyle: {
@@ -13,9 +13,14 @@ const bodyStyle = {
 }
 
 function Dashboard({dashboard}) {
-  const {weather, browser, cpu, user} = dashboard
+  const {weather, browser, cpu, user, numbers} = dashboard;
+  log(numbers);
+  const NumberCards = numbers.map((item,key)=><Col key={key} lg={6} md={12}>
+    <NumberCard {...item}/>
+  </Col>)
   return (
     <Row gutter={24}>
+      {NumberCards}
       <Col lg={6} md={24}>
         <Row gutter={24}>
           <Col lg={24} md={12}>

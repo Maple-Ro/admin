@@ -45,7 +45,7 @@ export default {
     },
     *card({payload},{call,put}){
       const {data} = yield call(qCard,parse(payload));
-      yield put({type:'cardInfo',payload:{card:data}})
+      yield put({type:'cardInfo',payload:{numbers:data}})
     },
     *os({payload},{call,put}){
       const {info} = yield call(qOs,parse(payload));
