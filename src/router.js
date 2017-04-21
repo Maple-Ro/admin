@@ -20,42 +20,51 @@ const Routers = function ({ history, app }) {
     {
       path: '/',
       component: App,
-      getIndexRoute (nextState, cb) {
+      getIndexRoute (nextState, callback) {
         require.ensure([], require => {
-          registerModel(app, require('./models/dashboard'))
-          cb(null, { component: require('./routes/dashboard/') })
+          registerModel(app, require('./models/dashboard'));
+          callback(null, { component: require('./routes/dashboard/') })
         }, 'dashboard')
       },
       childRoutes: [
         {
           path: 'dashboard',
-          getComponent (nextState, cb) {
+          getComponent (nextState, callback) {
             require.ensure([], require => {
-              registerModel(app, require('./models/dashboard'))
-              cb(null, require('./routes/dashboard/'))
+              registerModel(app, require('./models/dashboard'));
+              callback(null, require('./routes/dashboard/'))
             }, 'dashboard')
           },
         }, {
           path: 'users',
-          getComponent (nextState, cb) {
+          getComponent (nextState, callback) {
             require.ensure([], require => {
-              registerModel(app, require('./models/users'))
-              cb(null, require('./routes/users/'))
+              registerModel(app, require('./models/users'));
+              callback(null, require('./routes/users/'))
             }, 'users')
           },
-        }, {
-          path: 'articles',
-          getComponent (nextState, cb) {
+        },{
+          path: 'articles/list',
+          getComponent (nextState, callback) {
             require.ensure([], require => {
-              registerModel(app, require('./models/articles'))
-              cb(null, require('./routes/articles/'))
-            }, 'article')
+              // registerModel(app, require('./models/articles'));
+              callback(null, require('./routes/articles/list'))
+            }, 'article-list')
           },
-        },  {
-          path: '*',
-          getComponent (nextState, cb) {
+        },{
+          path: 'articles/create',
+          getComponent (nextState, callback) {
             require.ensure([], require => {
-              cb(null, require('./routes/error/'))
+              // registerModel(app, require('./models/articles'));
+              callback(null, require('./routes/articles/create'))
+            }, 'article-list')
+          },
+        },
+        {
+          path: '*',
+          getComponent (nextState, callback) {
+            require.ensure([], require => {
+              callback(null, require('./routes/error/'))
             }, 'error')
           },
         },
@@ -64,9 +73,9 @@ const Routers = function ({ history, app }) {
   ];
 
   routes[0].childRoutes.map(item => {
-    item.onEnter = handleChildRoute
+    item.onEnter = handleChildRoute;
     return item
-  })
+  });
 
   return <Router history={history} routes={routes} />
 };

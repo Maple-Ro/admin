@@ -1,8 +1,9 @@
-import config from './config'
-import menu from './menu'
-import {get,post} from './request2'
-import classnames from 'classnames'
-import { color } from './theme'
+import config from './config';
+import menu from './menu';
+import {get,post} from './request2';
+import classnames from 'classnames';
+import { color } from './theme';
+import log from './log';
 
 // 连字符转驼峰
 String.prototype.hyphenToHump = function () {
@@ -46,4 +47,5 @@ module.exports = {
   post,
   color,
   classnames,
-}
+  log
+};

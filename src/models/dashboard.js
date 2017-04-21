@@ -1,16 +1,17 @@
-import { info } from '../services/dashboard';
-
+import { info,queryWeather } from '../services/dashboard';
+import { parse } from 'qs';
+import {log} from '../utils';
 // zuimei 摘自 http://www.zuimeitianqi.com/res/js/index.js
 
 export default {
   namespace: 'dashboard',
   state: {
     weather: {
-      city: 'Shanghai',
-      temperature: '5',
-      name: 'sun',
-      icon: 'http://www.zuimeitianqi.com/res/icon/0_big.png',
-      dateTime: new Date().format('MM-dd hh:mm'),
+      city: 'N/A',
+      temperature: 'N/A',
+      weatherName: 'N/A',
+      icon: 'N/A',
+      dateTime: new Date().format('MM-dd'),
     },
     sales: [],
     quote: {
@@ -28,9 +29,31 @@ export default {
   },
   subscriptions: {
     setup ({ dispatch }) {
-      dispatch({ type: 'info' })
+      dispatch({type:'queryWeather'});
+      // dispatch({ type: 'info' });
     },
   },
-  effects: {},
-  reducers: {},
+  effects: {
+    *queryWeather({payload}, {call,put}){
+      const {success, weather} = yield call(queryWeather,parse(payload));
+      if(success){
+        yield put({
+          type:'loadWeatherSuccess',
+          payload:{
+            weather:weather
+          }
+        })
+      }
+    }
+  },
+  reducers: {
+    loadWeatherSuccess(state, action){
+      // log(action.payload); {weather:object}
+      // log(...action.payload);  undefined
+      return {
+        ...state,
+        ...action.payload
+      }
+    }
+  },
 }

@@ -11,6 +11,19 @@ module.exports = [
   },{
     key: 'Articles',
     name: 'Article Manage',
-    icon: 'Article',
+    icon: 'book',
+    clickable:false,
+    child:[
+      {
+        key: 'article-list',
+        name: 'article list',
+        icon: 'bars',
+      },
+      {
+        key: 'create-article',
+        name: 'create article',
+        icon: 'edit',
+      }
+    ]
   },
-]
+];

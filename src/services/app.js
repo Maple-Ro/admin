@@ -10,6 +10,3 @@ export async function logout () {
   return get('/api/logout',{})
 }
 
-export async function queryWeather() {
-  return get('/api/weather',{})
-}

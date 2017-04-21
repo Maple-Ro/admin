@@ -7,17 +7,17 @@ import { classnames, config } from '../utils'
 import { Helmet } from 'react-helmet'
 import '../components/skin.less'
 
-const { Header, Bread, Footer, Sider, styles } = Layout
+const { Header, Bread, Footer, Sider, styles } = Layout;
 
 const App = ({ children, location, dispatch, app, loading }) => {
-  const { login, loginButtonLoading, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys } = app
+  const { login, loginButtonLoading, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys } = app;
   const loginProps = {
     loading,
     loginButtonLoading,
     onOk (data) {
       dispatch({ type: 'app/login', payload: data })
     },
-  }
+  };
 
   const headerProps = {
     user,
@@ -49,10 +49,10 @@ const App = ({ children, location, dispatch, app, loading }) => {
       dispatch({ type: 'app/changeTheme' })
     },
     changeOpenKeys (openKeys) {
-      localStorage.setItem('navOpenKeys', JSON.stringify(openKeys))
+      localStorage.setItem('navOpenKeys', JSON.stringify(openKeys));
       dispatch({ type: 'app/handleNavOpenKeys', payload: { navOpenKeys: openKeys } })
     },
-  }
+  };
 
   return (
     <div>

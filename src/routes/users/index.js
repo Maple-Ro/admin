@@ -6,8 +6,8 @@ import UserFilter from './UserFilter'
 import UserModal from './UserModal'
 
 function Users ({ location, dispatch, users, loading }) {
-  const { list, pagination, currentItem, modalVisible, modalType, isMotion } = users
-  const { field, keyword } = location.query
+  const { list, pagination, currentItem, modalVisible, modalType, isMotion } = users;
+  const { field, keyword } = location.query;
 
   const userModalProps = {
     item: modalType === 'create' ? {} : currentItem,
