@@ -56,6 +56,6 @@ Cpu.propTypes = {
   usage: PropTypes.number,
   space: PropTypes.number,
   cpu: PropTypes.number,
-}
+};
 
 export default Cpu
