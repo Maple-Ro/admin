@@ -1,5 +1,10 @@
 import { get, post } from '../utils'
 
+/**
+ * 接受当前页和每页显示数量两个参数组成的参数组
+ * @param params
+ * @returns {Promise.<*>}
+ */
 export async function query (params) {
   return get('/api/article/lists',{
     data:params

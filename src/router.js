@@ -44,7 +44,7 @@ const Routers = function ({ history, app }) {
             }, 'users')
           },
         },{
-          path: 'articles/list',
+          path: 'articles/lists',
           getComponent (nextState, callback) {
             require.ensure([], require => {
               // registerModel(app, require('./models/articles'));

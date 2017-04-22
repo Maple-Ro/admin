@@ -4,22 +4,22 @@ import {message} from 'antd';
 export default {
   namespace:'article',
   state : {
-    list:[],
-    total:0,
-    page:1,
-    bordered: false,
-    loading: false,
-    size: 'default',
-    expandedRowRender,
-    title,
-    showHeader:true,
-    footer:{},
-    isMotion: localStorage.getItem('antdAdminUserIsMotion') === 'true',
+    list:[],//数据源
+    total:0,//总条数
+    page:1,//当前页面
+    bordered: false,//是否有边界
+    loading: false,//是否有loading效果
+    size: 'middle',//列表尺寸
+    expandedRowRender,//是否支持拓展列
+    title,//表格标题
+    showHeader:true,//是否显示表格抬头
+    footer:{},//是否有底部
+    isMotion: localStorage.getItem('antdAdminUserIsMotion') === 'true',//是否有动画
   },
   subscriptions:{
     setup({dispatch, history}){
       return history.listen(({pathname,query})=>{
-        if(pathname==='/article/list'){
+        if(pathname==='/article/lists'){
           dispatch({
             type:'fetch',payload:query
           });
