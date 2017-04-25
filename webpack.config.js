@@ -12,6 +12,7 @@ module.exports = function (webpackConfig, env) {
     webpackConfig.devtool = '#eval'
     webpackConfig.babel.plugins.push(['dva-hmr', {
       entries: [
+        'webpack-hot-middleware/client',
         './src/index.js',
       ],
     }])
