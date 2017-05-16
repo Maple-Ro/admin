@@ -1,4 +1,4 @@
-import { info, qWeather, qCard, qOs, qBrowser } from '../services/dashboard';
+import { info, qWeather, qCard, qOs, qBrowser, qChart } from '../services/dashboard';
 import { parse } from 'qs';
 import {log} from '../utils';
 // zuimei 摘自 http://www.zuimeitianqi.com/res/js/index.js
@@ -19,6 +19,7 @@ export default {
     numbers: [],
     browser: [],
     cpu: {},
+    charts:{},
     user: {
       avatar: 'http://img.hb.aicdn.com/bc442cf0cc6f7940dcc567e465048d1a8d634493198c4-sPx5BR_fw236',
     },
@@ -29,6 +30,7 @@ export default {
       dispatch({ type: 'card' });
       dispatch({ type: 'os' });
       dispatch({ type: 'browser' });
+      dispatch({ type: 'charts' });
     },
   },
   effects: {
@@ -55,6 +57,10 @@ export default {
       const {data} = yield call(qBrowser,parse(payload));
       yield put({type:'browserInfo',payload:{browser:data}})
     },
+    *charts({payload}, {call, put}){
+      const {data} = yield call(qChart, parse(payload));
+      yield put({type:'chartInfo', payload:{charts:data}})
+    }
   },
   reducers: {
     loadWeatherSuccess(state, action){
@@ -72,13 +78,18 @@ export default {
       }
     },
     osInfo(state,action){
-      log(action.payload);
       return {
         ...state,
         ...action.payload
       }
     },
     browserInfo(state,action){
+      return {
+        ...state,
+        ...action.payload
+      }
+    },
+    chartInfo(state,action){
       return {
         ...state,
         ...action.payload
