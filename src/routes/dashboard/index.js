@@ -13,13 +13,14 @@ const bodyStyle = {
 }
 
 function Dashboard({dashboard}) {
-  log(dashboard)
+  // log(dashboard)
   const {weather, browser, cpu, user, numbers, charts} = dashboard;
 
   const NumberCards = numbers.map((item,key)=><Col key={key} lg={6} md={12}>
     <NumberCard {...item}/>
   </Col>)
   return (
+    <div>
     <Row gutter={24}>
       {NumberCards}
       <Col lg={6} md={24}>
@@ -45,15 +46,13 @@ function Dashboard({dashboard}) {
           <Cpu {...cpu} />
         </Card>
       </Col>
-      <Col lg={8} md={24}>
-        <Card bordered={false} bodyStyle={{...bodyStyle.bodyStyle, padding: 0}}>
-          <User {...user} />
-        </Card>
-      </Col>
-      <Col lg={8} md={24}>
-        <MyChart data={charts}/>
-      </Col>
     </Row>
+    <Row>
+    <Col>
+    <MyChart data={charts}/>
+    </Col>
+    </Row>
+    </div>
   )
 }
 

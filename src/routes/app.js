@@ -3,13 +3,14 @@ import { connect } from 'dva'
 import Login from './login'
 import { Layout } from '../components'
 import { Spin } from 'antd'
-import { classnames, config } from '../utils'
+import { classnames, config, log } from '../utils'
 import { Helmet } from 'react-helmet'
 import '../components/skin.less'
-
 const { Header, Bread, Footer, Sider, styles } = Layout;
 
 const App = ({ children, location, dispatch, app, loading }) => {
+  log('loading', loading);
+  // loading = loading || false;
   const { login, loginButtonLoading, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys } = app;
   const loginProps = {
     loading,
@@ -76,9 +77,9 @@ const App = ({ children, location, dispatch, app, loading }) => {
             </div>
             <Footer />
           </div>
-        </div> :
-        <div className={styles.spin}>
-          <Spin tip="loading site info..." spinning={loading} size="large">
+        </div>
+        : <div className={styles.spin}>
+          <Spin tip="loading info..." spinning={loading} size="large" >
             <Login {...loginProps} />
           </Spin>
         </div>}
@@ -91,7 +92,7 @@ App.propTypes = {
   location: PropTypes.object,
   dispatch: PropTypes.func,
   app: PropTypes.object,
-  loading: PropTypes.bool,
+  loading: PropTypes.bool
 }
 
 export default connect(({ app, loading }) => ({ app, loading: loading.models.app }))(App)

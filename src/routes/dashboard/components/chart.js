@@ -9,19 +9,26 @@ const config = {
   plotCfg:{
     margin:[20, 60, 80, 120]
   },
-  forceFit:false
+  forceFit:true, //是否适应容器的宽高
+  animate:true
 }
 const Chart = createG2(chart=>{
   chart.col('ip', {
-    type:'cat'
+    type:'cat',
+    alias:'区域'
   });
-  chart.col('count');
+  chart.col('count',{
+    alias:'请求次数'
+  });
   chart.interval().position('ip*count').color('ip');
   chart.render();
+  chart.on('plotclick', function (ev) {
+    // var item = ev.items[0];
+    console.log(ev);
+  })
 })
 
 function MyChart({data}) {
-  log(data);//undefined
     return (
         <Chart
           data={data}
@@ -29,6 +36,7 @@ function MyChart({data}) {
           height={config.height}
           plotCfg={config.plotCfg}
           forceFit={config.forceFit}
+          animate={config.animate}
         />
     );
 }
@@ -38,7 +46,8 @@ Chart.propTypes={
   width:PropTypes.number,
   height:PropTypes.number,
   plotCfg:PropTypes.object,
-  forceFit:PropTypes.bool
+  forceFit:PropTypes.bool,
+  animate:PropTypes.bool
 }
 
 export default MyChart;

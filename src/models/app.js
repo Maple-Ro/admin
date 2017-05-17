@@ -25,7 +25,7 @@ export default {
     },
   },
   effects: {
-    *login ({payload,}, { call, put }) {
+    *login ({payload}, { call, put }) {
       yield put({ type: 'showLoginButtonLoading' })
       const { success, username } = yield call(login, parse(payload))
       if (success) {
@@ -40,7 +40,7 @@ export default {
         yield put({type: 'loginFail',})
       }
     },
-    *logout ({payload,}, { call, put }) {
+    *logout ({payload}, { call, put }) {
       const data = yield call(logout, parse(payload))
       if (data.success) {
         yield put({
@@ -48,24 +48,24 @@ export default {
         })
       }
     },
-    *switchSider ({payload,}, { put }) {
+    *switchSider ({payload}, { put }) {
       yield put({
         type: 'handleSwitchSider',
       })
     },
-    *changeTheme ({payload,}, { put }) {
+    *changeTheme ({payload}, { put }) {
       yield put({
         type: 'handleChangeTheme',
       })
     },
-    *changeNavbar ({payload,}, { put }) {
+    *changeNavbar ({payload}, { put }) {
       if (document.body.clientWidth < 769) {
         yield put({ type: 'showNavbar' })
       } else {
         yield put({ type: 'hideNavbar' })
       }
     },
-    *switchMenuPopver ({payload,}, { put }) {
+    *switchMenuPopver ({payload}, { put }) {
       yield put({
         type: 'handleSwitchMenuPopver',
       })
