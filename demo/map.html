@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>全国各个城市 pm 指数</title>
+  <title>SS服务访问示意图</title>
   <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
   <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
   <script src="https://a.alipayobjects.com/g/datavis/g2/2.3.1/g2.js"></script>
@@ -62,7 +62,7 @@
             stroke: '#fff',
             lineWidth: 3
           });
-        axios.get('http://tsing.studio/api/map').then(function (response) {
+        axios.get('http://liutsing.io/api/map').then(function (response) {
           const pointView = chart.createView();
           pointView.source(response.data);
           pointView.point().position(Stat.map.location('lon*lat'))

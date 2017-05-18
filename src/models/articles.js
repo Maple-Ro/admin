@@ -8,7 +8,7 @@ export default {
     total:0,//总条数
     page:1,//当前页面
     bordered: false,//是否有边界
-    loading: false,//是否有loading效果
+    // loading: false,//是否有loading效果
     size: 'middle',//列表尺寸
     expandedRowRender,//是否支持拓展列
     title,//表格标题

@@ -9,8 +9,8 @@ import '../components/skin.less'
 const { Header, Bread, Footer, Sider, styles } = Layout;
 
 const App = ({ children, location, dispatch, app, loading }) => {
-  log('loading', loading);
-  // loading = loading || false;
+  log('loading:')
+  log(loading); //loading:undefined
   const { login, loginButtonLoading, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys } = app;
   const loginProps = {
     loading,
@@ -59,9 +59,8 @@ const App = ({ children, location, dispatch, app, loading }) => {
     <div>
       <Helmet>
         <title>MAPLE ADMIN</title>
-        <link rel="icon" href={config.logoSrc} type="image/x-icon" />
-        {config.iconFontUrl ? <script src={config.iconFontUrl}></script> : ''}
-      </Helmet>
+        <link rel="icon" href={config.logoSrc} type="image/x-icon" />{config.iconFontUrl ? <script src={config.iconFontUrl}></script> : ''}
+        </Helmet>
       {login
         ? <div className={classnames(styles.layout, { [styles.fold]: isNavbar ? false : siderFold }, { [styles.withnavbar]: isNavbar })}>
           {!isNavbar ? <aside className={classnames(styles.sider, { [styles.light]: !darkTheme })}>

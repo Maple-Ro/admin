@@ -3,7 +3,7 @@ import 'babel-polyfill'
 import dva from 'dva'
 import createLoading from 'dva-loading'
 import { browserHistory } from 'dva/router'
-
+import {log} from './utils';
 // 1. Initialize
 const app = dva({
   ...createLoading(),
@@ -12,7 +12,8 @@ const app = dva({
     console.error('app onError -- ', error)
   },
 })
-
+console.log('c_loading', {...createLoading()});
+log({...createLoading()});
 // 2. Plugins
 // app.use(createLoading());
 
