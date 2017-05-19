@@ -18,3 +18,7 @@ export async function qCard() {
 export async function qBrowser() {
   return get('/api/browser')
 }
+
+export async function qChart() {
+  return get('/api/chart')
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>柱状图更新动效</title>
+  <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+  <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+  <script src="https://a.alipayobjects.com/g/datavis/g2/2.3.1/g2.js"></script>
+  <script src="https://unpkg.com/g2-react@1.2.0/dist/index.js"></script>
+  <script src="https://cdn.bootcss.com/babel-core/5.8.38/browser.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="c1"></div>
+<script type="text/babel">
+  var getValue = function () {
+    var value = 0;
+    return function () {
+      if (value >= Math.PI * 2) {
+        value = 0
+      }
+      var result = Math.sin(value);
+      value += Math.PI / 6;
+      return result;
+    }
+  }();
+  var data = [];
+
+  const Chart = createG2(chart => {
+    chart.col('month', {
+      type: 'cat',
+      formatter: function (dimValue) {
+        return dimValue + '月';
+      }
+    });
+    chart.col('value', {
+      min: 0,
+      max: 30
+    });
+
+    chart.interval().position('month*value').color('month');
+    chart.render();
+  });
+
+  const MyComponent = React.createClass({
+    getInitialState() {
+      var getValue = function () {
+        var value = 0;
+        return function () {
+          if (value >= Math.PI * 2) {
+            value = 0
+          }
+          var result = Math.sin(value);
+          value += Math.PI / 6;
+          return result;
+        }
+      }();
+      for (var i = 1; i <= 12; i++) {
+        data.push({'month': i, value: getValue() * 8 + 15});
+      }
+      console.log(data);
+      return {
+        data: data,
+        forceFit: true,
+        width: 500,
+        height: 450,
+        plotCfg: {
+          margin: [20, 60, 80, 120]
+        },
+      };
+    },
+    componentDidMount: function () {
+      const self = this;
+      setInterval(function () {
+        getValue();
+        data.map(function (item) {
+          item.value = getValue() * 8 + 15;
+        });
+        self.setState({
+          data: data
+        });
+      }, 120);
+    },
+    render() {
+      return (
+        <div>
+          <Chart
+            data={this.state.data}
+            width={this.state.width}
+            height={this.state.height}
+            plotCfg={this.state.plotCfg}
+            forceFit={this.state.forceFit}/>
+        </div>
+      );
+    },
+  });
+  ReactDOM.render(<MyComponent />, document.getElementById('c1'));
+</script>
+
+</body>
+</html>
