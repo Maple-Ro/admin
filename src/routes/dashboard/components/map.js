@@ -15,15 +15,23 @@ const config = {
   },
   forceFit:true, //是否适应容器的宽高
   animate:true
+};
+const Frame = G2.Frame;
+const Stat = G2.Stat;
+let map = [];
+//读取本地数据
+const mapData = base_map.data;
+const features = mapData.features;
+for(let i=0; i<features.length; i++) {
+  const name = features[i].properties.name;
+  map.push({
+    "name": name
+  });
 }
-
-
-
-
-  axios.get('china-pm.json').then(function (response) {
+  axios.get('map.json').then(function (response) {
     const pointView = chart.createView();
     pointView.source(response.data);
-    pointView.point().position(Stat.map.location('long*lant'))
+    pointView.point().position(Stat.map.location('lon*lat'))
       .size('value', 12, 1)
       .color('#6A006F')
       .tooltip('name*value')
@@ -55,20 +63,9 @@ Map.propTypes={
   plotCfg:PropTypes.object,
   forceFit:PropTypes.bool,
   animate:PropTypes.bool
-}
+};
+
 function baseMap() {
-  const Frame = G2.Frame;
-  const Stat = G2.Stat;
-  let map = [];
-  //读取本地数据
-  const mapData = base_map.data;
-  const features = mapData.features;
-  for(let i=0; i<features.length; i++) {
-    const name = features[i].properties.name;
-    map.push({
-      "name": name
-    });
-  }
   const chart = new G2.Chart({
     id: 'chart',
     width: 650,
