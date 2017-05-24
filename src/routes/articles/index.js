@@ -1,12 +1,109 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'dva';
+import { routerRedux } from 'dva/router';
+import List from './articlesList';
+import articleFilter from './articleFilter';
+import articleModal from './articleModal';
 
-import ArticleList from './list';
-import ArticleNew from './new';
+function Article({ location, dispatch, articles, loading}) {
+  const { list, pagination, currentItem, modalVisible, modalType} = articles; // articles同对应的model的namespace
+  const { field, keyword } = location.query;
 
-function Article({location, dispatch, loading, articles}) {
-
+  //表单数据处理
+  const articleListProps = {
+    dataSource: list,
+    loading,
+    pagination,
+    location,
+    onPageChange (page) {
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname,
+        query: {
+          ...query,
+          page: page.current,
+          pageSize: page.pageSize,
+        },
+      }))
+    },
+    onDeleteItem (id) {
+      dispatch({
+        type: 'articles/remove',
+        payload: id,
+      })
+    },
+    onDownItem(id){
+      dispatch({
+        type:'articles/down',
+        payload:id
+      })
+    },
+    onEditItem (item) {
+      dispatch({
+        type: 'articles/showModal',
+        payload: {
+          modalType: 'update',
+          currentItem: item,
+        },
+      })
+    },
+  }
+  //表单头部操作区域
+  const articleFilterProps = {
+    field,
+    keyword,
+    onSearch (fieldsValue) {
+      fieldsValue.keyword.length ? dispatch(routerRedux.push({
+        pathname: '/articles',
+        query: {
+          field: fieldsValue.field,
+          keyword: fieldsValue.keyword,
+        },
+      })) : dispatch(routerRedux.push({
+        pathname: '/articles',
+      }))
+    },
+    onAdd () {
+      dispatch({
+        type: 'article/showModal',
+        payload: {
+          modalType: 'create',
+        },
+      })
+    }
+  }
+  //表单model
+  const articleModalProps = {
+    item: modalType === 'create' ? {} : currentItem,
+    type: modalType,
+    visible: modalVisible,
+    onOk (data) {
+      dispatch({
+        type: `articles/${modalType}`,
+        payload: data,
+      })
+    },
+    onCancel () {
+      dispatch({
+        type: 'users/hideModal',
+      })
+    },
+  }
+  const ArticleModalGen = () =>
+    <articleModal {...articleModalProps} />
+  return (
+    <div className="content-inner">
+      <articleFilter {...articleFilterProps} />
+      <List {...articleListProps} />
+      <ArticleModalGen />
+    </div>
+  )
 }
-
+Article.PropTypes={
+  articles: PropTypes.object,
+  location: PropTypes.object,
+  dispatch: PropTypes.func,
+  loading: PropTypes.bool
+}
 
 export default connect(({articles, loading})=>({articles, loading:loading.models.articles}))(Article);

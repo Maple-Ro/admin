@@ -8,22 +8,10 @@ module.exports = [
     key: 'users',
     name: 'User Manage',
     icon: 'user',
-  },{
-    key: 'Articles',
+  },
+  {
+    key: 'articles',
     name: 'Article Manage',
-    icon: 'book',
-    clickable:false,
-    child:[
-      {
-        key: 'article-list',
-        name: 'article list',
-        icon: 'bars',
-      },
-      {
-        key: 'create-article',
-        name: 'create article',
-        icon: 'edit',
-      }
-    ]
+    icon: 'book'
   },
 ];

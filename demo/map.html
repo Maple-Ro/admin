@@ -62,11 +62,11 @@
             stroke: '#fff',
             lineWidth: 3
           });
-        axios.get('http://liutsing.io/api/map').then(function (response) {
+        axios.get('http://tsing.studio/api/map').then(function (response) {
           const pointView = chart.createView();
           pointView.source(response.data);
           pointView.point().position(Stat.map.location('lon*lat'))
-            .size('count', 12, 1)
+            .size('count', 12, 1) //size(dim, max, min) 将数据值映射到图形的大小上的方法。size(dim, callback) size('', function(value){if... return .... })
             .color('#ff5001')
             .tooltip('city*count')
             .shape('circle')

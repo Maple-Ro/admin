@@ -34,6 +34,7 @@ export default {
   effects: {
     *query ({ payload }, { call, put }) {
       const data = yield call(query, parse(payload))
+      console.log('用户列表数据格式:',data);
       if (data) {
         yield put({
           type: 'querySuccess',

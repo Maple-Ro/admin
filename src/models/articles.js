@@ -1,25 +1,26 @@
-import {create,remove,update,query} from '../services/articles';
+import {create, remove, update, query, down} from '../services/articles';
 import {parse} from 'qs';
 import {message} from 'antd';
+
 export default {
-  namespace:'article',
+  namespace:'articles',
   state : {
     list:[],//数据源
-    total:0,//总条数
-    page:1,//当前页面
-    bordered: false,//是否有边界
-    // loading: false,//是否有loading效果
-    size: 'middle',//列表尺寸
-    expandedRowRender,//是否支持拓展列
-    title,//表格标题
-    showHeader:true,//是否显示表格抬头
-    footer:{},//是否有底部
-    isMotion: localStorage.getItem('antdAdminUserIsMotion') === 'true',//是否有动画
+    currentItem: {},
+    modalVisible: false,
+    modalType: 'create',
+    pagination: {
+      showSizeChanger: true,
+      showQuickJumper: true,
+      showTotal: total => `共 ${total} 条`,
+      current: 1,
+      total: null,
+    },
   },
   subscriptions:{
     setup({dispatch, history}){
       return history.listen(({pathname,query})=>{
-        if(pathname==='/article/lists'){
+        if(pathname==='/articles/list'){
           dispatch({
             type:'fetch',payload:query
           });
@@ -31,11 +32,13 @@ export default {
   *fetch({payload},{call,put}){
     const {data} = yield call(query,payload);
     yield put({
-      type:'save',
+      type:'updateState',
       payload:{
         list:data.data,
-        total:parseInt(data.total, 10),
-        page:parseInt(data.page, 10)
+        pagination:{
+          total:parseInt(data.total, 10),
+          current:parseInt(data.current, 10)
+        }
       }
     })
   },
@@ -43,21 +46,54 @@ export default {
     const page = yield select(state=>state.article.page);
     yield put({type:'fetch', payload:{page}});
     },
-    *create({payload:values},{call,put}){
-    const {success} = yield call(create, values);
-    if(success){
-      message.success('save success', 3);
-      yield put({
-        type:'reload'})
+    *create({payload},{call,put}){
+    yield put({type:'hideModal'})
+    const {data} = yield call(create, payload);
+    if(data && data.success){
+      message.success('save success', 1);
+      yield put({type:'reload'})
     }
-  }
+  },
+    *update({payload},{select,call,put}){
+    yield put({type:'hideModal'})
+       const id = yield select(({ articles }) => articles.currentItem._id)
+      const newArticle = { ...payload, id }
+      const data = yield call(update, newArticle)
+      if (data && data.success) {
+        message.success('update success', 1);
+        yield put({type:'reload'})
+      }
+    },
+    *remove ({ payload }, { call, put }) {
+      const data = yield call(remove, { id: payload })
+      if (data && data.success) {
+        yield put({type: 'reload'})
+      }
+    },
+    *down ({ payload }, { call, put }) {
+      const data = yield call(down, { id: payload })
+      if (data && data.success) {
+        yield put({type: 'reload'})
+      }
+    },
   },
   reducers:{
-    save(state, action){
+    updateState(state, action){
+      const {list,pagination} = action.payload;
       return {
         ...state,
-        ...action.payload
+        list,
+        pagination:{
+          ...state.pagination,
+          ...pagination
+        }
       }
-    }
+    },
+    showModal (state, action) {
+    return { ...state, ...action.payload, modalVisible: true }
+  },
+  hideModal (state) {
+    return { ...state, modalVisible: false }
+  },
   }
 }

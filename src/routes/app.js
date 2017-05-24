@@ -78,7 +78,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
           </div>
         </div>
         : <div className={styles.spin}>
-            <Login {...loginProps} />
+            <Login {...loginProps} />+
         </div>}
     </div>
   )
