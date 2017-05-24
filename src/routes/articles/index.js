@@ -3,10 +3,10 @@ import {connect} from 'dva';
 import { routerRedux } from 'dva/router';
 import List from './articlesList';
 import articleFilter from './articleFilter';
-import New from './new';
+import articleModal from './articleModal';
 
 function Article({ location, dispatch, articles, loading}) {
-  const { list, pagination} = articles; // articles同对应的model的namespace
+  const { list, pagination, currentItem, modalVisible, modalType} = articles; // articles同对应的model的namespace
   const { field, keyword } = location.query;
 
   //表单数据处理
@@ -28,13 +28,19 @@ function Article({ location, dispatch, articles, loading}) {
     },
     onDeleteItem (id) {
       dispatch({
-        type: 'articles/delete',
+        type: 'articles/remove',
         payload: id,
+      })
+    },
+    onDownItem(id){
+      dispatch({
+        type:'articles/down',
+        payload:id
       })
     },
     onEditItem (item) {
       dispatch({
-        type: 'users/showModal',
+        type: 'articles/showModal',
         payload: {
           modalType: 'update',
           currentItem: item,
@@ -42,34 +48,54 @@ function Article({ location, dispatch, articles, loading}) {
       })
     },
   }
-  //表单搜索
-  // const articleFilterProps = {
-  //   field,
-  //   keyword,
-  //   onSearch (fieldsValue) {
-  //     fieldsValue.keyword.length ? dispatch(routerRedux.push({
-  //       pathname: '/articles',
-  //       query: {
-  //         field: fieldsValue.field,
-  //         keyword: fieldsValue.keyword,
-  //       },
-  //     })) : dispatch(routerRedux.push({
-  //       pathname: '/articles',
-  //     }))
-  //   },
-  //   onAdd () {
-  //     dispatch({
-  //       type: 'article/new',
-  //       payload: {
-  //         modalType: 'create',
-  //       },
-  //     })
-  //   }
-  // }
-
+  //表单头部操作区域
+  const articleFilterProps = {
+    field,
+    keyword,
+    onSearch (fieldsValue) {
+      fieldsValue.keyword.length ? dispatch(routerRedux.push({
+        pathname: '/articles',
+        query: {
+          field: fieldsValue.field,
+          keyword: fieldsValue.keyword,
+        },
+      })) : dispatch(routerRedux.push({
+        pathname: '/articles',
+      }))
+    },
+    onAdd () {
+      dispatch({
+        type: 'article/showModal',
+        payload: {
+          modalType: 'create',
+        },
+      })
+    }
+  }
+  //表单model
+  const articleModalProps = {
+    item: modalType === 'create' ? {} : currentItem,
+    type: modalType,
+    visible: modalVisible,
+    onOk (data) {
+      dispatch({
+        type: `articles/${modalType}`,
+        payload: data,
+      })
+    },
+    onCancel () {
+      dispatch({
+        type: 'users/hideModal',
+      })
+    },
+  }
+  const ArticleModalGen = () =>
+    <articleModal {...articleModalProps} />
   return (
     <div className="content-inner">
+      <articleFilter {...articleFilterProps} />
       <List {...articleListProps} />
+      <ArticleModalGen />
     </div>
   )
 }

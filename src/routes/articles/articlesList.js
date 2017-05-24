@@ -3,15 +3,26 @@ import React, {PropTypes} from "react";
 import styles from "./style.less";
 import classnames from 'classnames'
 import AnimTableBody from '../../components/DataTable/AnimTableBody'
+import {DropOption} from '../../components'
 const confirm = Modal.confirm
-function List({dataSource, loading, pagination, onPageChange, onDeletedItem, onEditItem, location}) {
-  function deleteHandler(id) {
-    // confirm({
-    //   title: '确定要删除这条记录么?',
-    //   onOk(){
-    //     onDeletedItem(id);
-    //   }
-    // })
+
+function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEditItem, onDownItem, location}) {
+  const handleMenuClick = (id, type) => {
+    if (type === 'del') {
+      confirm({
+        title: '确定要删除这篇文章么?',
+        onOk(){
+          onDeleteItem(id)
+        }
+      })
+    } else if (type === 'down') {
+      confirm({
+        title: '确定要下架这篇文章么?',
+        onOk(){
+          onDownItem(id)
+        }
+      })
+    }
   }
 
   const columns = [{
@@ -42,8 +53,9 @@ function List({dataSource, loading, pagination, onPageChange, onDeletedItem, onE
       width: 360,
       render: (text, record) => (
         <span>
-      <span className={styles.ant_divider}><a href="#" onClick={deleteHandler(record._id)}>Delete</a></span>
+      <span className={styles.ant_divider}><a href="#" onClick={handleMenuClick(record._id, 'del')}>Delete</a></span>
       <span className={styles.ant_divider}><a href="#" onClick={onEditItem(record)}>Edit</a></span>
+      <span className={styles.ant_divider}><a href="#" onClick={handleMenuClick(record._id, 'down')}>Down</a></span>
     </span>
       ),
     }];
@@ -53,13 +65,15 @@ function List({dataSource, loading, pagination, onPageChange, onDeletedItem, onE
     current: pagination.current,
   }
 
-  const getBodyWrapper = body => { return  <AnimTableBody {...getBodyWrapperProps} body={body} /> }
+  const getBodyWrapper = body => {
+    return <AnimTableBody {...getBodyWrapperProps} body={body}/>
+  }
 
   return (
     <div>
       <Table
         dataSource={dataSource}
-        className={classnames({ [styles.table]: true })}
+        className={classnames({[styles.table]: true})}
         columns={columns}
         loading={loading}
         onChange={onPageChange}

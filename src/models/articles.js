@@ -1,4 +1,4 @@
-import {create,remove,update,query} from '../services/articles';
+import {create, remove, update, query, down} from '../services/articles';
 import {parse} from 'qs';
 import {message} from 'antd';
 
@@ -6,6 +6,9 @@ export default {
   namespace:'articles',
   state : {
     list:[],//数据源
+    currentItem: {},
+    modalVisible: false,
+    modalType: 'create',
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -43,14 +46,36 @@ export default {
     const page = yield select(state=>state.article.page);
     yield put({type:'fetch', payload:{page}});
     },
-    *create({payload:values},{call,put}){
-    const {success} = yield call(create, values);
-    if(success){
-      message.success('save success', 3);
-      yield put({
-        type:'reload'})
+    *create({payload},{call,put}){
+    yield put({type:'hideModal'})
+    const {data} = yield call(create, payload);
+    if(data && data.success){
+      message.success('save success', 1);
+      yield put({type:'reload'})
     }
-  }
+  },
+    *update({payload},{select,call,put}){
+    yield put({type:'hideModal'})
+       const id = yield select(({ articles }) => articles.currentItem._id)
+      const newArticle = { ...payload, id }
+      const data = yield call(update, newArticle)
+      if (data && data.success) {
+        message.success('update success', 1);
+        yield put({type:'reload'})
+      }
+    },
+    *remove ({ payload }, { call, put }) {
+      const data = yield call(remove, { id: payload })
+      if (data && data.success) {
+        yield put({type: 'reload'})
+      }
+    },
+    *down ({ payload }, { call, put }) {
+      const data = yield call(down, { id: payload })
+      if (data && data.success) {
+        yield put({type: 'reload'})
+      }
+    },
   },
   reducers:{
     updateState(state, action){
@@ -63,6 +88,12 @@ export default {
           ...pagination
         }
       }
-    }
+    },
+    showModal (state, action) {
+    return { ...state, ...action.payload, modalVisible: true }
+  },
+  hideModal (state) {
+    return { ...state, modalVisible: false }
+  },
   }
 }
