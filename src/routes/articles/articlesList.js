@@ -1,16 +1,17 @@
 import {Modal, Table} from "antd";
 import React, {PropTypes} from "react";
 import styles from "./style.less";
-
+import classnames from 'classnames'
+import AnimTableBody from '../../components/DataTable/AnimTableBody'
 const confirm = Modal.confirm
-function List({dataSource, loading, pagination, onPageChange, onDeletedItem, onEditItem}) {
+function List({dataSource, loading, pagination, onPageChange, onDeletedItem, onEditItem, location}) {
   function deleteHandler(id) {
-    confirm({
-      title: '确定要删除这条记录么?',
-      onOk(){
-        onDeletedItem(id);
-      }
-    })
+    // confirm({
+    //   title: '确定要删除这条记录么?',
+    //   onOk(){
+    //     onDeletedItem(id);
+    //   }
+    // })
   }
 
   const columns = [{
@@ -20,20 +21,20 @@ function List({dataSource, loading, pagination, onPageChange, onDeletedItem, onE
     width: 150,
     render: text => <a href="#">{text}</a>,
   }, {
-    title: 'Summary',
+    title: 'Content',
     dataIndex: 'content',
-    key: 'summary',
+    key: 'content',
     width: 400,
   }, {
     title: 'Create_at',
-    dataIndex: 'create_at',
-    key: 'create_at',
+    dataIndex: 'created_at',
+    key: 'created_at',
     width: 150
   },
     {
       title: 'Update_at',
-      dataIndex: 'update_at',
-      key: 'update_at',
+      dataIndex: 'updated_at',
+      key: 'updated_at',
       width: 150
     }, {
       title: 'Action',
@@ -41,23 +42,31 @@ function List({dataSource, loading, pagination, onPageChange, onDeletedItem, onE
       width: 360,
       render: (text, record) => (
         <span>
-      <span className="ant-divider"><a href="#" onClick={deleteHandler(record.id)}>Delete</a></span>
-      <span className="ant-divider"><a href="#" onClick={onEditItem(record)}>Edit</a></span>
+      <span className={styles.ant_divider}><a href="#" onClick={deleteHandler(record._id)}>Delete</a></span>
+      <span className={styles.ant_divider}><a href="#" onClick={onEditItem(record)}>Edit</a></span>
     </span>
       ),
     }];
+
+  const getBodyWrapperProps = {
+    page: location.query.page,
+    current: pagination.current,
+  }
+
+  const getBodyWrapper = body => { return  <AnimTableBody {...getBodyWrapperProps} body={body} /> }
+
   return (
     <div>
       <Table
         dataSource={dataSource}
-        className={styles.table}
-        scroll={{x: 1200}}
+        className={classnames({ [styles.table]: true })}
         columns={columns}
         loading={loading}
         onChange={onPageChange}
         pagination={pagination}
-        middle
-        rowKey={record => record.id}
+        size={"default"}
+        rowKey={record => record._id}
+        getBodyWrapper={getBodyWrapper}
       />
     </div>
   )

@@ -8,7 +8,7 @@ export default {
   namespace: 'app',
   state: {
     // login: cookie.load('t')===undefined,
-    login: localStorage.getItem('isLogin')===undefined,
+    login: localStorage.getItem('isLogin')!==undefined,
     user: {
       name: 'Endless',
     },

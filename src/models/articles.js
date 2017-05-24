@@ -28,7 +28,6 @@ export default {
   effects:{
   *fetch({payload},{call,put}){
     const {data} = yield call(query,payload);
-    console.log('article-list',data.data);
     yield put({
       type:'updateState',
       payload:{

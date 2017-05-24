@@ -1,13 +1,12 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'dva';
 import { routerRedux } from 'dva/router';
-import articleList from './articlesList';
+import List from './articlesList';
 import articleFilter from './articleFilter';
 import New from './new';
 
 function Article({ location, dispatch, articles, loading}) {
-  console.log('articles',articles)
-  const { list, pagination} = articles;
+  const { list, pagination} = articles; // articles同对应的model的namespace
   const { field, keyword } = location.query;
 
   //表单数据处理
@@ -44,34 +43,33 @@ function Article({ location, dispatch, articles, loading}) {
     },
   }
   //表单搜索
-  const articleFilterProps = {
-    field,
-    keyword,
-    onSearch (fieldsValue) {
-      fieldsValue.keyword.length ? dispatch(routerRedux.push({
-        pathname: '/articles',
-        query: {
-          field: fieldsValue.field,
-          keyword: fieldsValue.keyword,
-        },
-      })) : dispatch(routerRedux.push({
-        pathname: '/articles',
-      }))
-    },
-    onAdd () {
-      dispatch({
-        type: 'article/new',
-        payload: {
-          modalType: 'create',
-        },
-      })
-    }
-  }
+  // const articleFilterProps = {
+  //   field,
+  //   keyword,
+  //   onSearch (fieldsValue) {
+  //     fieldsValue.keyword.length ? dispatch(routerRedux.push({
+  //       pathname: '/articles',
+  //       query: {
+  //         field: fieldsValue.field,
+  //         keyword: fieldsValue.keyword,
+  //       },
+  //     })) : dispatch(routerRedux.push({
+  //       pathname: '/articles',
+  //     }))
+  //   },
+  //   onAdd () {
+  //     dispatch({
+  //       type: 'article/new',
+  //       payload: {
+  //         modalType: 'create',
+  //       },
+  //     })
+  //   }
+  // }
 
   return (
     <div className="content-inner">
-      <articleFilter {...articleFilterProps} />
-      <articleList {...articleListProps} />
+      <List {...articleListProps} />
     </div>
   )
 }
