@@ -14,8 +14,7 @@ const bodyStyle = {
 
 function Dashboard({dashboard}) {
   // log(dashboard)
-  const {weather, browser, cpu, user, numbers, charts} = dashboard;
-
+  const {weather, browser, cpu, numbers, charts} = dashboard;
   const NumberCards = numbers.map((item,key)=><Col key={key} lg={6} md={12}>
     <NumberCard {...item}/>
   </Col>)
@@ -23,18 +22,10 @@ function Dashboard({dashboard}) {
     <div>
     <Row gutter={24}>
       {NumberCards}
-      <Col lg={6} md={24}>
-        <Row gutter={24}>
-          <Col lg={24} md={12}>
-            <Card bordered={false} className={styles.weather} bodyStyle={{
-              padding: 0,
-              height: 204,
-              background: color.blue,
-            }}>
-              <Weather {...weather} />
-            </Card>
-          </Col>
-        </Row>
+      <Col lg={8} md={24}>
+        <Card bordered={false} {...bodyStyle}>
+          <Weather {...weather} />
+        </Card>
       </Col>
       <Col lg={8} md={24}>
         <Card bordered={false} {...bodyStyle}>

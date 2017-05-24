@@ -1,5 +1,5 @@
 import {Modal, Table} from "antd";
-import React, {propTypes} from "react";
+import React, {PropTypes} from "react";
 import styles from "./style.less";
 
 const confirm = Modal.confirm
@@ -21,7 +21,7 @@ function List({dataSource, loading, pagination, onPageChange, onDeletedItem, onE
     render: text => <a href="#">{text}</a>,
   }, {
     title: 'Summary',
-    dataIndex: 'summary',
+    dataIndex: 'content',
     key: 'summary',
     width: 400,
   }, {
@@ -62,13 +62,13 @@ function List({dataSource, loading, pagination, onPageChange, onDeletedItem, onE
     </div>
   )
 }
-List.propTypes({
-  loading: propTypes.boolean,
-  dataSource: propTypes.array,
-  onPageChange: propTypes.func,
-  pagination: propTypes.object,
-  onDeleteItem: propTypes.func,
-  onEditItem: propTypes.func
-});
+List.propTypes = {
+  loading: PropTypes.bool,
+  dataSource: PropTypes.array,
+  onPageChange: PropTypes.func,
+  pagination: PropTypes.object,
+  onDeleteItem: PropTypes.func,
+  onEditItem: PropTypes.func
+};
 
 export default List;

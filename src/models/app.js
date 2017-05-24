@@ -1,12 +1,14 @@
 import { login, logout } from '../services/app';
 import {log} from '../utils';
 import { parse } from 'qs';
+import cookie from 'react-cookie';
 
 
 export default {
   namespace: 'app',
   state: {
-    login: false,
+    // login: cookie.load('t')===undefined,
+    login: localStorage.getItem('isLogin')===undefined,
     user: {
       name: 'Endless',
     },
@@ -29,23 +31,20 @@ export default {
       yield put({ type: 'showLoginButtonLoading' })
       const { success, username } = yield call(login, parse(payload))
       if (success) {
+        localStorage.setItem('isLogin', 'true')
+        // cookie.set('t', '1', {expires:'2017-05-23',path:'/'})
         yield put({
           type: 'loginSuccess',
-          payload: {
-            user: {
-              name: username,
-            },
-          } })
+          payload: {user: {name: username}}})
       } else {
-        yield put({type: 'loginFail',})
+        yield put({type: 'loginFail'})
       }
     },
     *logout ({payload}, { call, put }) {
       const data = yield call(logout, parse(payload))
       if (data.success) {
-        yield put({
-          type: 'logoutSuccess',
-        })
+        localStorage.removeItem('isLogin')
+        yield put({type: 'logoutSuccess',})
       }
     },
     *switchSider ({payload}, { put }) {

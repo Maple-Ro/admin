@@ -44,20 +44,20 @@ const Routers = function ({ history, app }) {
             }, 'users')
           },
         },{
-          path: 'articles/lists',
+          path: 'articles/list',
           getComponent (nextState, callback) {
             require.ensure([], require => {
-              // registerModel(app, require('./models/articles'));
-              callback(null, require('./routes/articles/list'))
-            }, 'article-list')
+              registerModel(app, require('./models/articles'));
+              callback(null, require('./routes/articles'))
+            }, 'list')
           },
         },{
-          path: 'articles/create',
+          path: 'articles/new',
           getComponent (nextState, callback) {
             require.ensure([], require => {
-              // registerModel(app, require('./models/articles'));
+              registerModel(app, require('./models/articles'));
               callback(null, require('./routes/articles/create'))
-            }, 'article-list')
+            }, 'new')
           },
         },
         {

@@ -9,18 +9,18 @@ module.exports = [
     name: 'User Manage',
     icon: 'user',
   },{
-    key: 'Articles',
+    key: 'articles',
     name: 'Article Manage',
     icon: 'book',
     clickable:false,
     child:[
       {
-        key: 'article-list',
+        key: 'list',
         name: 'article list',
         icon: 'bars',
       },
       {
-        key: 'create-article',
+        key: 'new',
         name: 'create article',
         icon: 'edit',
       }

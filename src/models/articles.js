@@ -1,25 +1,23 @@
 import {create,remove,update,query} from '../services/articles';
 import {parse} from 'qs';
 import {message} from 'antd';
+
 export default {
-  namespace:'article',
+  namespace:'articles',
   state : {
     list:[],//数据源
-    total:0,//总条数
-    page:1,//当前页面
-    bordered: false,//是否有边界
-    // loading: false,//是否有loading效果
-    size: 'middle',//列表尺寸
-    expandedRowRender,//是否支持拓展列
-    title,//表格标题
-    showHeader:true,//是否显示表格抬头
-    footer:{},//是否有底部
-    isMotion: localStorage.getItem('antdAdminUserIsMotion') === 'true',//是否有动画
+    pagination: {
+      showSizeChanger: true,
+      showQuickJumper: true,
+      showTotal: total => `共 ${total} 条`,
+      current: 1,
+      total: null,
+    },
   },
   subscriptions:{
     setup({dispatch, history}){
       return history.listen(({pathname,query})=>{
-        if(pathname==='/article/lists'){
+        if(pathname==='/articles/list'){
           dispatch({
             type:'fetch',payload:query
           });
@@ -30,12 +28,15 @@ export default {
   effects:{
   *fetch({payload},{call,put}){
     const {data} = yield call(query,payload);
+    console.log('article-list',data.data);
     yield put({
-      type:'save',
+      type:'updateState',
       payload:{
         list:data.data,
-        total:parseInt(data.total, 10),
-        page:parseInt(data.page, 10)
+        pagination:{
+          total:parseInt(data.total, 10),
+          current:parseInt(data.current, 10)
+        }
       }
     })
   },
@@ -53,10 +54,15 @@ export default {
   }
   },
   reducers:{
-    save(state, action){
+    updateState(state, action){
+      const {list,pagination} = action.payload;
       return {
         ...state,
-        ...action.payload
+        list,
+        pagination:{
+          ...state.pagination,
+          ...pagination
+        }
       }
     }
   }

@@ -64,8 +64,6 @@ export default {
   },
   reducers: {
     loadWeatherSuccess(state, action){
-      // log(action.payload);// {weather:object}
-      // log(...action.payload);  undefined
       return {
         ...state,
         ...action.payload
