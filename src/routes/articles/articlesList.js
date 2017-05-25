@@ -3,7 +3,6 @@ import React, {PropTypes} from "react";
 import styles from "./style.less";
 import classnames from 'classnames'
 import AnimTableBody from '../../components/DataTable/AnimTableBody'
-import {DropOption} from '../../components'
 const confirm = Modal.confirm
 
 function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEditItem, onDownItem, location}) {
