@@ -34,14 +34,12 @@ const fetch = (url, options) => {
 
 function checkStatus(res) {
   if (res.status >= 200 && res.status < 300) {
-    console.log(res);
     return res
   }
 }
 
 function handelData(res) {
   const data = res.data
-  console.log(data);
   if(data.status !== 200) {
     message.error(data.msg)
   }

@@ -1,7 +1,7 @@
 import React, {PropTypes} from "react";
 import {connect} from "dva";
 import {Card, Col, Row} from "antd";
-import {NumberCard, Browser, Cpu, User, Weather, MyChart} from "./components";
+import {NumberCard, Browser, Cpu, Weather, MyChart, OS} from "./components";
 import styles from "./index.less";
 import {color,log} from "../../utils";
 
@@ -13,8 +13,7 @@ const bodyStyle = {
 }
 
 function Dashboard({dashboard}) {
-  // log(dashboard)
-  const {weather, browser, cpu, numbers, charts} = dashboard;
+  const {weather, cpu, numbers} = dashboard;
   const NumberCards = numbers.map((item,key)=><Col key={key} lg={6} md={12}>
     <NumberCard {...item}/>
   </Col>)
@@ -24,12 +23,7 @@ function Dashboard({dashboard}) {
       {NumberCards}
       <Col lg={8} md={24}>
         <Card bordered={false} {...bodyStyle}>
-          <Weather {...weather} />
-        </Card>
-      </Col>
-      <Col lg={8} md={24}>
-        <Card bordered={false} {...bodyStyle}>
-          <Browser data={browser}/>
+          <OS {...cpu}/>
         </Card>
       </Col>
       <Col lg={8} md={24}>
@@ -37,11 +31,11 @@ function Dashboard({dashboard}) {
           <Cpu {...cpu} />
         </Card>
       </Col>
-    </Row>
-    <Row>
-    <Col>
-    <MyChart data={charts}/>
-    </Col>
+      <Col lg={8} md={24}>
+        <Card bordered={false} {...bodyStyle}>
+          <Weather {...weather} />
+        </Card>
+      </Col>
     </Row>
     </div>
   )

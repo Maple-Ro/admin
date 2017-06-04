@@ -4,5 +4,6 @@ import Browser from "./browser";
 import Cpu from "./cpu";
 import User from "./user";
 import MyChart from "./chart";
+import OS from "./os";
 
-export {NumberCard, Weather, Browser, Cpu, User, MyChart}
+export {NumberCard, Weather, Browser, Cpu, User, MyChart, OS}

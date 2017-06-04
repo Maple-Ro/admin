@@ -78,7 +78,7 @@ export default {
     osInfo(state,action){
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     },
     browserInfo(state,action){
