@@ -35,15 +35,8 @@ const Routers = function ({ history, app }) {
               callback(null, require('./routes/dashboard/'))
             }, 'dashboard')
           },
-        }, {
-          path: 'users',
-          getComponent (nextState, callback) {
-            require.ensure([], require => {
-              registerModel(app, require('./models/users'));
-              callback(null, require('./routes/users/'))
-            }, 'users')
-          },
-        },{
+        },
+        {
           path: 'articles',
           getComponent (nextState, callback) {
             require.ensure([], require => {
