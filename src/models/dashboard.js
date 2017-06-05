@@ -1,5 +1,5 @@
-import { info, qWeather, qCard, qOs, qBrowser, qChart } from '../services/dashboard';
-import { parse } from 'qs';
+import {info, qWeather, qCard, qOs, qBrowser, qChart} from '../services/dashboard';
+import {parse} from 'qs';
 import {log} from '../utils';
 // zuimei 摘自 http://www.zuimeitianqi.com/res/js/index.js
 
@@ -18,48 +18,48 @@ export default {
     },
     numbers: [],
     browser: [],
-    cpu: {},
-    charts:{},
+    os: {},
+    charts: {},
     user: {
       avatar: 'http://img.hb.aicdn.com/bc442cf0cc6f7940dcc567e465048d1a8d634493198c4-sPx5BR_fw236',
     },
   },
   subscriptions: {
-    setup ({ dispatch }) {
-      dispatch({type:'weather'});
-      dispatch({ type: 'card' });
-      dispatch({ type: 'os' });
-      dispatch({ type: 'browser' });
-      dispatch({ type: 'charts' });
+    setup ({dispatch}) {
+      dispatch({type: 'weather'});
+      dispatch({type: 'card'});
+      dispatch({type: 'os'});
+      dispatch({type: 'browser'});
+      dispatch({type: 'charts'});
     },
   },
   effects: {
-    *weather({payload}, {call,put}){
-      const {success, weather} = yield call(qWeather,parse(payload));
-      if(success){
+    *weather({payload}, {call, put}){
+      const {success, weather} = yield call(qWeather, parse(payload));
+      if (success) {
         yield put({
-          type:'loadWeatherSuccess',
-          payload:{
-            weather:weather
+          type: 'loadWeatherSuccess',
+          payload: {
+            weather: weather
           }
         })
       }
     },
-    *card({payload},{call,put}){
-      const {data} = yield call(qCard,parse(payload));
-      yield put({type:'cardInfo',payload:{numbers:data}})
+    *card({payload}, {call, put}){
+      const {data} = yield call(qCard, parse(payload));
+      yield put({type: 'cardInfo', payload: {numbers: data}})
     },
-    *os({payload},{call,put}){
-      const {info} = yield call(qOs,parse(payload));
-      yield put({type:'osInfo',payload:{cpu:info}})
+    *os({payload}, {call, put}){
+      const {info} = yield call(qOs, parse(payload));
+      yield put({type: 'osInfo', payload: {os: info}})
     },
-    *browser({payload},{call,put}){
-      const {data} = yield call(qBrowser,parse(payload));
-      yield put({type:'browserInfo',payload:{browser:data}})
+    *browser({payload}, {call, put}){
+      const {data} = yield call(qBrowser, parse(payload));
+      yield put({type: 'browserInfo', payload: {browser: data}})
     },
     *charts({payload}, {call, put}){
       const {data} = yield call(qChart, parse(payload));
-      yield put({type:'chartInfo', payload:{charts:data}})
+      yield put({type: 'chartInfo', payload: {charts: data}})
     }
   },
   reducers: {
@@ -69,25 +69,25 @@ export default {
         ...action.payload
       }
     },
-    cardInfo(state,action){
+    cardInfo(state, action){
       return {
         ...state,
         ...action.payload
       }
     },
-    osInfo(state,action){
+    osInfo(state, action){
       return {
         ...state,
         ...action.payload,
       }
     },
-    browserInfo(state,action){
+    browserInfo(state, action){
       return {
         ...state,
         ...action.payload
       }
     },
-    chartInfo(state,action){
+    chartInfo(state, action){
       return {
         ...state,
         ...action.payload

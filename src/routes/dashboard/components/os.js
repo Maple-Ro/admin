@@ -1,26 +1,67 @@
-import React, {PropTypes} from 'react'
+import React, { PropTypes } from 'react'
+import styles from './cpu.less'
+import CountUp from 'react-countup'
 import {Card} from 'antd'
+const countUpProps = {
+  start: 0,
+  duration: 2.75,
+  useEasing: true,
+  useGrouping: true,
+  separator: ',',
+}
 
-function OS({usage, space, cpu, data, staticInfo}) {
-  const {os, distribution, kernel, PHP, nginx, mysql, mongodb, redis, uptime, uptime_booted} = staticInfo;
-  return (
-    <Card title="OS basic info">
-      <p><span>os:</span><span>{os}</span></p>
-      <p><span>distribution:</span><span>{distribution}</span></p>
-      <p><span>kernel:</span><span>{kernel}</span></p>
-      <p><span>PHP:</span><span>{PHP}</span></p>
-      <p><span>nginx:</span><span>{nginx}</span></p>
-      <p><span>mysql:</span><span>{mysql}</span></p>
-      <p><span>mongodb:</span><span>{mongodb}</span></p>
-      <p><span>redis:</span><span>{redis}</span></p>
-      <p><span>uptime:</span><span>{uptime}</span></p>
-      <p><span>uptime_booted:</span><span>{uptime_booted}</span></p>
-    </Card>
-  )
+function OS ({ usage, space, cpu, data, staticInfo }) {
+  // const {os, distribution, kernel, PHP, nginx, mysql, mongodb, redis, uptime, uptime_booted} = staticInfo;
+  return (<div className={styles.cpu}>
+    <div className={styles.number}>
+      <div className={styles.item}>
+        <p>usage</p>
+        <p><CountUp
+          end={usage}
+          suffix="MB"
+          {...countUpProps}
+        /></p>
+      </div>
+      <div className={styles.item}>
+        <p>space</p>
+        <p><CountUp
+          end={space}
+          suffix="GB"
+          {...countUpProps}
+        /></p>
+      </div>
+      <div className={styles.item}>
+        <p>cpu</p>
+        <p><CountUp
+          end={cpu}
+          suffix="%"
+          {...countUpProps}
+        /></p>
+      </div>
+    </div>
+    {
+      staticInfo ?
+      <Card title="Server basic info" bordered={true}>
+        <p>Os：{staticInfo.os}</p>
+        <p>Distribution：{staticInfo.distribution}</p>
+        <p>Kernel：{staticInfo.kernel}</p>
+        <p>PHP：{staticInfo.PHP}</p>
+        <p>Nginx：{staticInfo.nginx}</p>
+        <p>Mysql：{staticInfo.mysql}</p>
+        <p>Mongodb：{staticInfo.mongodb}</p>
+        <p>Redis：{staticInfo.redis}</p>
+        <p>Uptime：{staticInfo.uptime}</p>
+        <p>Uptime_booted；{staticInfo.uptime_booted}</p>
+      </Card> : ''
+    }
+  </div>)
 }
 
 OS.propTypes = {
-  staticInfo: PropTypes.object.isRequired
-}
+  data: PropTypes.array,
+  usage: PropTypes.number,
+  space: PropTypes.number,
+  cpu: PropTypes.number,
+};
 
 export default OS

@@ -1,7 +1,7 @@
 import React, {PropTypes} from "react";
 import {connect} from "dva";
 import {Card, Col, Row} from "antd";
-import {NumberCard, Browser, Cpu, Weather, MyChart, OS} from "./components";
+import {NumberCard, Browser, OS, Weather, MyChart} from "./components";
 import styles from "./index.less";
 import {color,log} from "../../utils";
 
@@ -13,7 +13,7 @@ const bodyStyle = {
 }
 
 function Dashboard({dashboard}) {
-  const {weather, cpu, numbers} = dashboard;
+  const {weather, os, numbers,charts} = dashboard;
   const NumberCards = numbers.map((item,key)=><Col key={key} lg={6} md={12}>
     <NumberCard {...item}/>
   </Col>)
@@ -23,12 +23,7 @@ function Dashboard({dashboard}) {
       {NumberCards}
       <Col lg={8} md={24}>
         <Card bordered={false} {...bodyStyle}>
-          <OS {...cpu}/>
-        </Card>
-      </Col>
-      <Col lg={8} md={24}>
-        <Card bordered={false} {...bodyStyle}>
-          <Cpu {...cpu} />
+          <OS {...os} />
         </Card>
       </Col>
       <Col lg={8} md={24}>
@@ -37,6 +32,11 @@ function Dashboard({dashboard}) {
         </Card>
       </Col>
     </Row>
+      <Row>
+        <Col>
+          <MyChart data={charts}/>
+        </Col>
+      </Row>
     </div>
   )
 }

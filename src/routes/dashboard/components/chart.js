@@ -42,7 +42,6 @@ function MyChart({data}) {
 }
 
 Chart.propTypes = {
-  data: PropTypes.array,
   width: PropTypes.number,
   height: PropTypes.number,
   plotCfg: PropTypes.object,
