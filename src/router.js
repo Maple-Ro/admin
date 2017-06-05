@@ -13,7 +13,7 @@ const registerModel = (app, model) => {
 
 const Routers = function ({ history, app }) {
   const handleChildRoute = ({ location, params, routes }) => {
-    console.log(location, params, routes)
+    // console.log(location, params, routes)
   };
 
   const routes = [

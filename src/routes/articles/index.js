@@ -2,10 +2,10 @@ import React, {PropTypes} from 'react';
 import {connect} from 'dva';
 import { routerRedux } from 'dva/router';
 import List from './articlesList';
-import articleFilter from './articleFilter';
-import articleModal from './articleModal';
+import ArticleFilter from './articleFilter';
+import ArticleModal from './articleModal';
 
-function Article({ location, dispatch, articles, loading}) {
+function Articles({ location, dispatch, articles, loading}) {
   const { list, pagination, currentItem, modalVisible, modalType} = articles; // articles同对应的model的namespace
   const { field, keyword } = location.query;
 
@@ -16,7 +16,7 @@ function Article({ location, dispatch, articles, loading}) {
     pagination,
     location,
     onPageChange (page) {
-      const { query, pathname } = location
+      const { query, pathname } = location;
       dispatch(routerRedux.push({
         pathname,
         query: {
@@ -71,7 +71,7 @@ function Article({ location, dispatch, articles, loading}) {
         },
       })
     }
-  }
+  };
   //表单model
   const articleModalProps = {
     item: modalType === 'create' ? {} : currentItem,
@@ -88,22 +88,22 @@ function Article({ location, dispatch, articles, loading}) {
         type: 'users/hideModal',
       })
     },
-  }
-  const ArticleModalGen = () =>
-    <articleModal {...articleModalProps} />
+  };
+  const ArticleModalGen = () => <ArticleModal {...articleModalProps} />;
+
   return (
     <div className="content-inner">
-      <articleFilter {...articleFilterProps} />
+      <ArticleFilter {...articleFilterProps} />
       <List {...articleListProps} />
       <ArticleModalGen />
     </div>
   )
 }
-Article.PropTypes={
+Articles.PropTypes={
   articles: PropTypes.object,
   location: PropTypes.object,
   dispatch: PropTypes.func,
   loading: PropTypes.bool
 }
 
-export default connect(({articles, loading})=>({articles, loading:loading.models.articles}))(Article);
+export default connect(({articles, loading})=>({articles, loading:loading}))(Articles);

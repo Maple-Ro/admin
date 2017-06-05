@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
-import styles from './chart.less';
+import React  from 'react';
+import PropTypes from 'prop-types';
 import createG2 from 'g2-react';
-import {log} from '../../../utils';
+import G2 from 'g2';
 
 const config = {
   width: 800,
@@ -11,22 +11,19 @@ const config = {
   },
   forceFit: true, //是否适应容器的宽高
   animate: true
-}
+};
 const Chart = createG2(chart => {
-  chart.col('ip', {
-    type: 'cat',
-    alias: '区域'
-  });
-  chart.col('count', {
-    alias: '请求次数'
-  });
-  chart.interval().position('ip*count').color('ip');
+  // chart.col('ip', {
+  //   type: 'cat',
+  //   alias: '区域'
+  // });
+  // chart.col('count', {
+  //   alias: '请求次数'
+  // });
+  chart.interval().position('ip*count');
+  // chart.interval().position(Stat.summary.count('count')).color('ip');
   chart.render();
-  chart.on('plotclick', function (ev) {
-    // var item = ev.items[0];
-    console.log(ev);
-  })
-})
+});
 
 function MyChart({data}) {
   return (
@@ -42,6 +39,7 @@ function MyChart({data}) {
 }
 
 Chart.propTypes = {
+  // data: PropTypes.object,
   width: PropTypes.number,
   height: PropTypes.number,
   plotCfg: PropTypes.object,
