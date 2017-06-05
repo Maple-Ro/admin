@@ -106,4 +106,4 @@ Articles.PropTypes={
   loading: PropTypes.bool
 }
 
-export default connect(({articles, loading})=>({articles, loading:loading}))(Articles);
+export default connect(({articles, loading})=>({articles, loading:loading.models.articles}))(Articles);
