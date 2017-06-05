@@ -1,7 +1,7 @@
 import React, {PropTypes} from "react";
 import {connect} from "dva";
 import {Card, Col, Row} from "antd";
-import {NumberCard, Browser, OS, Weather, MyChart} from "./components";
+import {NumberCard, Browser, OS, Weather, MyChart, MyMap} from "./components";
 import styles from "./index.less";
 import {color,log} from "../../utils";
 
@@ -26,11 +26,14 @@ function Dashboard({dashboard}) {
           <OS {...os} />
         </Card>
       </Col>
-      <Col lg={8} md={24}>
+      <Col lg={6} md={24}>
         <Card bordered={false} {...bodyStyle}>
           <Weather {...weather} />
         </Card>
       </Col>
+      <Col lg={10} md={24}>
+      <div><MyMap/></div>
+    </Col>
     </Row>
       <Row>
         <Col>
