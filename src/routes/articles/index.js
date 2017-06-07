@@ -64,6 +64,7 @@ function Articles({ location, dispatch, articles, loading}) {
       }))
     },
     onAdd () {
+      debugger;
       dispatch({
         type: 'article/showModal',
         payload: {
@@ -78,6 +79,7 @@ function Articles({ location, dispatch, articles, loading}) {
     type: modalType,
     visible: modalVisible,
     onOk (data) {
+      debugger
       dispatch({
         type: `articles/${modalType}`,
         payload: data,
@@ -90,7 +92,6 @@ function Articles({ location, dispatch, articles, loading}) {
     },
   };
   const ArticleModalGen = () => <ArticleModal {...articleModalProps} />;
-
   return (
     <div className="content-inner">
       <ArticleFilter {...articleFilterProps} />
