@@ -2,8 +2,8 @@ import React, {PropTypes} from 'react';
 import {connect} from 'dva';
 import { routerRedux } from 'dva/router';
 import List from './articlesList';
-import articleFilter from './articleFilter';
-import articleModal from './articleModal';
+import ArticleFilter from './articleFilter';
+import ArticleModal from './articleModal';
 
 function Article({ location, dispatch, articles, loading}) {
   const { list, pagination, currentItem, modalVisible, modalType} = articles; // articles同对应的model的namespace
@@ -64,6 +64,7 @@ function Article({ location, dispatch, articles, loading}) {
       }))
     },
     onAdd () {
+      debugger;
       dispatch({
         type: 'article/showModal',
         payload: {
@@ -78,6 +79,7 @@ function Article({ location, dispatch, articles, loading}) {
     type: modalType,
     visible: modalVisible,
     onOk (data) {
+      debugger
       dispatch({
         type: `articles/${modalType}`,
         payload: data,
@@ -90,10 +92,10 @@ function Article({ location, dispatch, articles, loading}) {
     },
   }
   const ArticleModalGen = () =>
-    <articleModal {...articleModalProps} />
+    <ArticleModal {...articleModalProps} />
   return (
     <div className="content-inner">
-      <articleFilter {...articleFilterProps} />
+      <ArticleFilter {...articleFilterProps} />
       <List {...articleListProps} />
       <ArticleModalGen />
     </div>
