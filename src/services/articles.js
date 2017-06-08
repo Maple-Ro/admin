@@ -22,8 +22,14 @@ export async function remove (params) {
     data: params
   })
 }
+
 export async function down (params) {
-  return post('/api/article/down',{
+  return post('/api/article/down', {
+    data: params
+  })
+}
+  export async function up (params) {
+  return post('/api/article/up',{
     data: params
   })
 }

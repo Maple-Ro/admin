@@ -6,7 +6,7 @@ import classnames from 'classnames'
 import AnimTableBody from '../../components/DataTable/AnimTableBody';
 
 const confirm = Modal.confirm;
-function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEditItem, onDownItem, location}) {
+function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEditItem, onDownItem, onUpItem, location}) {
   const handleMenuDeleteClick = (id) => {
     confirm({
       title: '确定要删除这篇文章么?',
@@ -20,6 +20,14 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
       title: '确定要下架这篇文章么?',
       onOk(){
         onDownItem(id)
+      }
+    })
+  };
+  const handleMenuUpClick = (id) => {
+    confirm({
+      title: '确定要上架这篇文章么?',
+      onOk(){
+        onUpItem(id)
       }
     })
   };

@@ -39,6 +39,12 @@ function Articles({ location, dispatch, articles, loading}) {
         payload:id
       })
     },
+    onUpItem(id){
+      dispatch({
+        type:'articles/up',
+        payload:id
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'articles/showModal',
@@ -65,7 +71,6 @@ function Articles({ location, dispatch, articles, loading}) {
       }))
     },
     onAdd () {
-      debugger;
       dispatch({
         type: 'article/showModal',
         payload: {
