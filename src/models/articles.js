@@ -32,7 +32,6 @@ export default {
   effects: {
     *query({payload}, {call, put}){
       const {data} = yield call(query, payload);
-      debugger;
       if(data){
         yield put({
           type: 'updateState',

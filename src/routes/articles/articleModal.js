@@ -1,17 +1,18 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {Upload, Icon, message, Form, Input, InputNumber, Radio, Modal, Tabs, Select, Button} from 'antd'
 import DraftEditor from '../../components/Editor/Editor';
 
-const FormItem = Form.Item
+const FormItem = Form.Item;
 const uploadImageCallBack = function () {
 
-}
+};
 const onEditorStateChange = function () {
 
-}
+};
 const editorState = function () {
 
-}
+};
 const editorProps = {
   editorState: editorState,
   toolbarClassName: "home-toolbar",
@@ -19,7 +20,7 @@ const editorProps = {
   editorClassName: "home-editor",
   onEditorStateChange: onEditorStateChange,
   uploadCallback: uploadImageCallBack
-}
+};
 function modal({
                  visible, type, item = {}, onOk, onCancel,
                  form: {
@@ -112,6 +113,6 @@ modal.propTypes = {
   item: PropTypes.object,
   onCancel: PropTypes.func,
   onOk: PropTypes.func,
-}
+};
 
 export default Form.create()(modal)

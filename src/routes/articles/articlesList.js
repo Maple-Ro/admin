@@ -1,28 +1,28 @@
 import {Modal, Table} from "antd";
-import React, {PropTypes} from "react";
+import React from "react";
+import PropTypes from 'prop-types'
 import styles from "./style.less";
 import classnames from 'classnames'
-import AnimTableBody from '../../components/DataTable/AnimTableBody'
-const confirm = Modal.confirm
+import AnimTableBody from '../../components/DataTable/AnimTableBody';
 
+const confirm = Modal.confirm;
 function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEditItem, onDownItem, location}) {
-  const handleMenuClick = (id, type) => {
-    if (type === 'del') {
-      confirm({
-        title: '确定要删除这篇文章么?',
-        onOk(){
-          onDeleteItem(id)
-        }
-      })
-    } else if (type === 'down') {
-      confirm({
-        title: '确定要下架这篇文章么?',
-        onOk(){
-          onDownItem(id)
-        }
-      })
-    }
+  const handleMenuDeleteClick = (id) => {
+    confirm({
+      title: '确定要删除这篇文章么?',
+      onOk(){
+        onDeleteItem(id)
+      }
+    })
   }
+  const handleMenuDownClick = (id) => {
+    confirm({
+      title: '确定要下架这篇文章么?',
+      onOk(){
+        onDownItem(id)
+      }
+    })
+  };
 
   const columns = [{
     title: 'Title',
@@ -52,9 +52,9 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
       width: 360,
       render: (text, record) => (
         <span>
-      <span className={styles.ant_divider}><a href="#" onClick={handleMenuClick(record._id, 'del')}>Delete</a></span>
-      <span className={styles.ant_divider}><a href="#" onClick={onEditItem(record)}>Edit</a></span>
-      <span className={styles.ant_divider}><a href="#" onClick={handleMenuClick(record._id, 'down')}>Down</a></span>
+      <span className={styles.ant_divider}><a href="#" onClick={() => {handleMenuDeleteClick(record._id)}} >Delete</a></span>
+      <span className={styles.ant_divider}><a href="#" onClick={() => {onEditItem(record)}}>Edit</a></span>
+      <span className={styles.ant_divider}><a href="#" onClick={() => {handleMenuDownClick(record._id)}} >Down</a></span>
     </span>
       ),
     }];

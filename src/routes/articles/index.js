@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 import {connect} from 'dva';
 import { routerRedux } from 'dva/router';
 import List from './articlesList';
@@ -79,7 +80,6 @@ function Articles({ location, dispatch, articles, loading}) {
     type: modalType,
     visible: modalVisible,
     onOk (data) {
-      debugger
       dispatch({
         type: `articles/${modalType}`,
         payload: data,
@@ -87,7 +87,7 @@ function Articles({ location, dispatch, articles, loading}) {
     },
     onCancel () {
       dispatch({
-        type: 'users/hideModal',
+        type: 'articles/hideModal',
       })
     },
   };
