@@ -9,7 +9,7 @@ const confirm = Modal.confirm;
 function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEditItem, onDownItem, onUpItem, location}) {
   const handleMenuDeleteClick = (id) => {
     confirm({
-      title: '确定要删除这篇文章么?',
+      title: 'Really delete this paper?',
       onOk(){
         onDeleteItem(id)
       }
@@ -17,7 +17,7 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
   }
   const handleMenuDownClick = (id) => {
     confirm({
-      title: '确定要下架这篇文章么?',
+      title: 'Really down this paper?',
       onOk(){
         onDownItem(id)
       }
@@ -25,14 +25,21 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
   };
   const handleMenuUpClick = (id) => {
     confirm({
-      title: '确定要上架这篇文章么?',
+      title: 'Really up this paper?',
       onOk(){
         onUpItem(id)
       }
     })
   };
 
-  const columns = [{
+  const columns = [
+    {
+      title:'State',
+      key:'is_draft',
+      'width':100,
+      render:(record)=>record.is_draft===1 ? <a href="#" className={styles.paper_draft}>&nbsp;</a> : <a href="#" className={styles.paper_formal}>&nbsp;</a>
+    },
+    {
     title: 'Title',
     dataIndex: 'title',
     key: 'title',
@@ -54,15 +61,17 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
       dataIndex: 'updated_at',
       key: 'updated_at',
       width: 150
-    }, {
+    },
+    {
       title: 'Action',
       key: 'action',
-      width: 360,
+      width: 200,
       render: (text, record) => (
         <span>
       <span className={styles.ant_divider}><a href="#" onClick={() => {handleMenuDeleteClick(record._id)}} >Delete</a></span>
       <span className={styles.ant_divider}><a href="#" onClick={() => {onEditItem(record)}}>Edit</a></span>
-      <span className={styles.ant_divider}><a href="#" onClick={() => {handleMenuDownClick(record._id)}} >Down</a></span>
+      <span className={styles.ant_divider}>{record.is_draft === 1 ? <a href="#" onClick={() => {handleMenuUpClick(record._id)}} >Up</a> :
+        <a href="#" onClick={() => {handleMenuDownClick(record._id)}} >Down</a>}</span>
     </span>
       ),
     }];

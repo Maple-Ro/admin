@@ -72,7 +72,7 @@ function Articles({ location, dispatch, articles, loading}) {
     },
     onAdd () {
       dispatch({
-        type: 'article/showModal',
+        type: 'articles/showModal',
         payload: {
           modalType: 'create',
         },

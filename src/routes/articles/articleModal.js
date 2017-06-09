@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Upload, Icon, message, Form, Input, InputNumber, Radio, Modal, Tabs, Select, Button} from 'antd'
+import {Form, Input, Modal, Select} from 'antd'
 import DraftEditor from '../../components/Editor/Editor';
 
 const FormItem = Form.Item;
@@ -43,7 +43,8 @@ function modal({
   }
 
   const modalOpts = {
-    title: `${type === 'create' ? 'new article' : 'edit article'}`,
+    width:1200,
+    title: `${type === 'create' ? 'New article' : 'Edit article'}`,
     visible,
     onOk: handleOk,
     onCancel,
@@ -83,7 +84,7 @@ function modal({
             initialValue: item.title,
             rules: [{required: true, message: 'title is required!'}],
           })(
-            <Input placeholder="enter the title"/>
+            <Input placeholder="Enter the title"/>
           )}
         </FormItem>
         <FormItem label='article category' hasFeedback {...formItemLayout}>
@@ -92,15 +93,12 @@ function modal({
             rules: [
               {
                 required: true,
-                message: 'article category is required'
+                message: 'Article category is required'
               }
             ]
           })(<Select placeholder='--select article category--'>
             {item.category && item.category.map((item, key) => <Select.Option value={String(item.id)} key={key}>{item.name || item.id}</Select.Option>)}
           </Select>)}
-        </FormItem>
-        <FormItem>
-          <DraftEditor {...editorProps}/>
         </FormItem>
       </Form>
     </Modal>

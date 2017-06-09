@@ -28,7 +28,8 @@ export async function down (params) {
     data: params
   })
 }
-  export async function up (params) {
+
+export async function up (params) {
   return post('/api/article/up',{
     data: params
   })

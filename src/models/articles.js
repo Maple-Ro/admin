@@ -1,4 +1,4 @@
-import {create, remove, update, query, down} from '../services/articles';
+import {create, remove, update, query, down, up} from '../services/articles';
 import {parse} from 'qs';
 import {message} from 'antd';
 
@@ -47,13 +47,13 @@ export default {
       }
     },
     *reload({action}, {put, select}){
-      const page = yield select(state => state.article.page);
+      const page = yield select(state => state.articles.pagination.current);
       yield put({type: 'query', payload: {page}});
     },
     *create({payload}, {call, put}){
       yield put({type: 'hideModal'})
       const {data} = yield call(create, payload);
-      if (data && data.success) {
+      if (data.data.success) {
         message.success('save success', 1);
         yield put({type: 'reload'})
       }
@@ -63,20 +63,26 @@ export default {
       const id = yield select(({articles}) => articles.currentItem._id)
       const newArticle = {...payload, id}
       const data = yield call(update, newArticle)
-      if (data && data.success) {
+      if (data.data.success) {
         message.success('update success', 1);
         yield put({type: 'reload'})
       }
     },
     *remove ({payload}, {call, put}) {
       const data = yield call(remove, {id: payload})
-      if (data && data.success) {
+      if (data.data.success) {
         yield put({type: 'reload'})
       }
     },
     *down ({payload}, {call, put}) {
       const data = yield call(down, {id: payload})
-      if (data && data.success) {
+      if (data.data.success) {
+        yield put({type: 'reload'})
+      }
+    },
+    *up ({payload}, {call, put}) {
+      const data = yield call(up, {id: payload})
+      if (data.data.success) {
         yield put({type: 'reload'})
       }
     },
