@@ -34,33 +34,35 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
 
   const columns = [
     {
-      title:'State',
-      key:'is_draft',
-      'width':100,
-      render:(record)=>record.is_draft===1 ? <a href="#" className={styles.paper_draft}>&nbsp;</a> : <a href="#" className={styles.paper_formal}>&nbsp;</a>
+      title: 'State',
+      key: 'is_draft',
+      'width': 100,
+      render: (record) => record.is_draft === 1 ? <a href="#" className={styles.paper_draft}>&nbsp;</a> :
+        <a href="#" className={styles.paper_formal}>&nbsp;</a>
     },
     {
-    title: 'Title',
-    dataIndex: 'title',
-    key: 'title',
-    width: 150,
-    render: text => <a href="#">{text}</a>,
-  }, {
-    title: 'Content',
-    dataIndex: 'content',
-    key: 'content',
-    width: 400,
-  }, {
-    title: 'Create_at',
-    dataIndex: 'created_at',
-    key: 'created_at',
-    width: 150
-  },
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
+      width: 150,
+      render: text => <a href="#">{text}</a>,
+    }, {
+      title: 'Content',
+      dataIndex: 'content',
+      key: 'content',
+      width: 400,
+      render: text => text.substring(0, 100)
+    }, {
+      title: 'Create_at',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      width: 75
+    },
     {
       title: 'Update_at',
       dataIndex: 'updated_at',
       key: 'updated_at',
-      width: 150
+      width: 75
     },
     {
       title: 'Action',
@@ -68,10 +70,18 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
       width: 200,
       render: (text, record) => (
         <span>
-      <span className={styles.ant_divider}><a href="#" onClick={() => {handleMenuDeleteClick(record._id)}} >Delete</a></span>
-      <span className={styles.ant_divider}><a href="#" onClick={() => {onEditItem(record)}}>Edit</a></span>
-      <span className={styles.ant_divider}>{record.is_draft === 1 ? <a href="#" onClick={() => {handleMenuUpClick(record._id)}} >Up</a> :
-        <a href="#" onClick={() => {handleMenuDownClick(record._id)}} >Down</a>}</span>
+      <span className={styles.ant_divider}><a href="#" onClick={() => {
+        handleMenuDeleteClick(record._id)
+      }}>Delete</a></span>
+      <span className={styles.ant_divider}><a href="#" onClick={() => {
+        onEditItem(record)
+      }}>Edit</a></span>
+      <span className={styles.ant_divider}>{record.is_draft === 1 ? <a href="#" onClick={() => {
+        handleMenuUpClick(record._id)
+      }}>Up</a> :
+        <a href="#" onClick={() => {
+          handleMenuDownClick(record._id)
+        }}>Down</a>}</span>
     </span>
       ),
     }];

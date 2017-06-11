@@ -1,4 +1,4 @@
-import {create, remove, update, query, down, up} from '../services/articles';
+import {create, remove, update, query, down, up, uploadCallback} from '../services/articles';
 import {parse} from 'qs';
 import {message} from 'antd';
 
@@ -84,6 +84,14 @@ export default {
       const data = yield call(up, {id: payload})
       if (data.data.success) {
         yield put({type: 'reload'})
+      }
+    },
+    *upload ({payload}, {call, put}) {
+      const data = yield call(uploadCallback, {file: payload})
+      if (data.data.success) {
+        message.success('upload success', 1)
+      }else{
+        message.error(data.data.msg, 1)
       }
     },
   },
