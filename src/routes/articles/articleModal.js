@@ -1,24 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Form, Input, Modal, Select} from 'antd'
-import DraftEditor from '../../components/Editor/Editor';
+import DraftEditor from '../../components/Editor/MyEditor';
 import {convertToRaw} from 'draft-js'
 
 const FormItem = Form.Item;
 const uploadImageCallBack = ({dispatch, payload}) => {
   dispatch({type: 'articles/upload', payload: payload})
 };
-const onEditorStateChange = (editorState, editorContent) => {
-debugger
-  let editorContents = editorState;
-  editorContents[index] = editorContent;
-  editorContents = [...editorContents];
-  DraftEditor.setState({
-    editorContents,
-  });
-  console.log('editorContents', editorContents)
-  console.log('editorContent', editorContent)
-}
+
 const modal = ({
                  visible, type, item = {}, onOk, onCancel,
                  form: {
@@ -36,19 +26,15 @@ const modal = ({
         ...getFieldsValue(),
         key: item.key,
       }
-      console.log('DraftEditor', DraftEditor.editorState)
-      data.content = JSON.stringify(convertToRaw(DraftEditor.editorState.getCurrentContent()), null, 4)
+      // console.log('DraftEditor', DraftEditor.state.editorContent)
+      data.content = JSON.stringify(convertToRaw(DraftEditor.state.getCurrentContent()), null, 4)
       onOk(data)
     })
   }
   const content = item.content || ''
   const editorProps = {
-    toolbarClassName: "home-toolbar",
-    wrapperClassName: "home-wrapper",
-    editorClassName: "home-editor",
     editorState: content,
-    uploadCallback: uploadImageCallBack,
-    onEditorStateChange: onEditorStateChange
+    uploadCallback: uploadImageCallBack
   };
   const modalOpts = {
     width: 1200,
