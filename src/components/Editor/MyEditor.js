@@ -10,7 +10,7 @@ class DraftEditor extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      editorContent: null,
+      editorContent: props.editorContent || null,
     }
   }
   onEditorStateChange = (editorState) => {

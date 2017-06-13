@@ -27,14 +27,14 @@ const modal = ({
         key: item.key,
       }
       // console.log('DraftEditor', DraftEditor.state.editorContent)
-      data.content = JSON.stringify(convertToRaw(DraftEditor.state.getCurrentContent()), null, 4)
+      data.content = JSON.stringify(convertToRaw(DraftEditor.state.editorContent), null, 4)
       onOk(data)
     })
   }
-  const content = item.content || ''
+
   const editorProps = {
-    editorState: content,
-    uploadCallback: uploadImageCallBack
+    editorContent: item.content || ''
+    // uploadCallback: uploadImageCallBack
   };
   const modalOpts = {
     width: 1200,
