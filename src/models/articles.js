@@ -53,7 +53,7 @@ export default {
     *create({payload}, {call, put}){
       yield put({type: 'hideModal'})
       const {data} = yield call(create, payload);
-      if (data.data.success) {
+      if (data.success) {
         message.success('save success', 1);
         yield put({type: 'reload'})
       }
@@ -70,7 +70,7 @@ export default {
     },
     *remove ({payload}, {call, put}) {
       const data = yield call(remove, {id: payload})
-      if (data.data.success) {
+      if (data.success) {
         yield put({type: 'reload'})
       }
     },

@@ -22,6 +22,7 @@ const fetch = (url, options) => {
     case 'head':
       return axios.head(url, data)
     case 'post':
+      if(data instanceof FormData) return axios.post(url, data);
       return axios.post(url, stringify(data))
     case 'put':
       return axios.put(url, stringify(data))

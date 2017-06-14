@@ -2,12 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Form, Input, Modal, Select} from 'antd'
 import DraftEditor from '../../components/Editor/MyEditor';
-import {convertToRaw} from 'draft-js'
-
 const FormItem = Form.Item;
-const uploadImageCallBack = ({dispatch, payload}) => {
-  dispatch({type: 'articles/upload', payload: payload})
-};
 
 const modal = ({
                  visible, type, item = {}, onOk, onCancel,
@@ -15,6 +10,7 @@ const modal = ({
                    getFieldDecorator,
                    validateFields,
                    getFieldsValue,
+                   setFieldsValue
                  },
                }) => {
   const handleOk = () => {
@@ -26,15 +22,19 @@ const modal = ({
         ...getFieldsValue(),
         key: item.key,
       }
-      // console.log('DraftEditor', DraftEditor.state.editorContent)
-      data.content = JSON.stringify(convertToRaw(DraftEditor.state.editorContent), null, 4)
       onOk(data)
+      console.log('data', data);
     })
   }
 
+  const getContents = function (content) {
+    setFieldsValue({
+      content: content
+    })
+  }
   const editorProps = {
-    editorContent: item.content || ''
-    // uploadCallback: uploadImageCallBack
+    getContents: getContents,
+    content: item.content || '<p>Enter Your Idea...</p>'
   };
   const modalOpts = {
     width: 1200,
@@ -69,21 +69,26 @@ const modal = ({
       sm: {span: 20, offset: 4},
     },
   };
+
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
         <FormItem label="Title" hasFeedback {...formTitleLayout}>
           {getFieldDecorator('title', {
             initialValue: item.title,
-            // rules: [{required: true, message: 'title is required!'}],
+            rules: [{required: true, message: 'title is required!'}]
           })(
             <Input placeholder="Enter the title"/>
           )}
         </FormItem>
         <FormItem label="Content">
-          <DraftEditor
-            {...editorProps}
-          />
+          {getFieldDecorator('content', {
+            initialValue: item.content,
+            rules: [{required: true, message: 'content is required!'}]
+          })(
+            <Input placeholder="Enter the content" type="hidden"/>
+          )}
+          <DraftEditor {...editorProps}/>
         </FormItem>
       </Form>
     </Modal>
