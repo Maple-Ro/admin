@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Form, Input, Modal, Select} from 'antd'
 import DraftEditor from '../../components/Editor/MyEditor';
+import {imgURL} from '../../utils/config';
 const FormItem = Form.Item;
 
 const modal = ({
@@ -23,7 +24,6 @@ const modal = ({
         key: item.key,
       }
       onOk(data)
-      console.log('data', data);
     })
   }
 
@@ -34,7 +34,7 @@ const modal = ({
   }
   const editorProps = {
     getContents: getContents,
-    content: item.content || '<p>Enter Your Idea...</p>'
+    content: item.content || '{"entityMap": {},"blocks": [{"key": "1ahm2","text": "Enter Your Ideas...","type": "unstyled","depth": 0,"inlineStyleRanges": [],"entityRanges": []}]}'
   };
   const modalOpts = {
     width: 1200,

@@ -70,7 +70,7 @@ export default {
     },
     *remove ({payload}, {call, put}) {
       const data = yield call(remove, {id: payload})
-      if (data.success) {
+      if (data.data.success) {
         yield put({type: 'reload'})
       }
     },
@@ -85,15 +85,7 @@ export default {
       if (data.data.success) {
         yield put({type: 'reload'})
       }
-    },
-    *upload ({payload}, {call, put}) {
-      const data = yield call(uploadCallback, {file: payload})
-      if (data.data.success) {
-        message.success('upload success', 1)
-      }else{
-        message.error(data.data.msg, 1)
-      }
-    },
+    }
   },
   reducers: {
     updateState(state, action){
