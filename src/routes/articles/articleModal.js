@@ -34,7 +34,7 @@ const modal = ({
   }
   const editorProps = {
     getContents: getContents,
-    content: item.content || '<p>Enter Your Idea...</p>'
+    content: item.content || '{"entityMap": {},"blocks": [{"key": "1ahm2","text": "Enter Your Ideas...","type": "unstyled","depth": 0,"inlineStyleRanges": [],"entityRanges": []}]}'
   };
   const modalOpts = {
     width: 1200,
