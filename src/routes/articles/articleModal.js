@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Input, Modal, Select} from 'antd'
+import {Form, Input, Modal} from 'antd'
 import DraftEditor from '../../components/Editor/MyEditor';
-import {template} from '../../utils/config';
 const FormItem = Form.Item;
 
 const modal = ({
@@ -37,7 +36,7 @@ const modal = ({
   }
   const editorProps = {
     getContents: getContents,
-    content: item.content || template
+    content: item.content || ''
   };
   const modalOpts = {
     width: 1200,

@@ -11,9 +11,14 @@ import {uploadCallback} from '../../services/articles'
 class DraftEditor extends React.Component {
   constructor(props) {
     super(props)
-
+    let content = null;
+    if(!!props.content){
+      content = EditorState.createWithContent(convertFromRaw(JSON.parse(props.content)))
+    }else{
+      content = EditorState.createEmpty()
+    }
     this.state = {
-      editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(props.content)))
+      editorState: content
     }
 
     this.onEditorStateChange = (editorState) => {
@@ -32,6 +37,7 @@ class DraftEditor extends React.Component {
       editorClassName={styles.editor}
       onEditorStateChange={this.onEditorStateChange}
       toolbar={{image: {uploadCallback: uploadCallback}}}
+      placeholder="Enter Your Idea..."
     />)
   }
 }

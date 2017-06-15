@@ -51,7 +51,15 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
       dataIndex: 'content',
       key: 'content',
       width: 400,
-      render: text => text.substring(0, 100)
+      render: text => {
+        let contents = JSON.parse(text)
+        let i =0, content='';
+        for(i in contents.blocks){
+          content += contents.blocks[i].text
+        }
+        content = content.substring(0, 100)
+        return <a href="#">{content}</a>
+      }
     }, {
       title: 'Create_at',
       dataIndex: 'created_at',
