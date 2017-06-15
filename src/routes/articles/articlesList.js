@@ -6,7 +6,7 @@ import classnames from 'classnames'
 import AnimTableBody from '../../components/DataTable/AnimTableBody';
 
 const confirm = Modal.confirm;
-function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEditItem, onDownItem, onUpItem, location}) {
+function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEditItem, onDownItem, onUpItem, location, onViewItem}) {
   const handleMenuDeleteClick = (id) => {
     confirm({
       title: 'Really delete this paper?',
@@ -37,21 +37,31 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
       title: 'State',
       key: 'is_draft',
       'width': 100,
-      render: (record) => record.is_draft === 1 ? <a href="#" className={styles.paper_draft}>&nbsp;</a> :
-        <a href="#" className={styles.paper_formal}>&nbsp;</a>
+      render: (record) => record.is_draft === 1 ? <span href="#" className={styles.paper_draft}>&nbsp;</span> :
+        <span href="#" className={styles.paper_formal}>&nbsp;</span>
     },
     {
       title: 'Title',
       dataIndex: 'title',
       key: 'title',
       width: 150,
-      render: text => <a href="#">{text}</a>,
+      render: text => <span >{text}</span>,
     }, {
       title: 'Content',
       dataIndex: 'content',
       key: 'content',
       width: 400,
-      render: text => text.substring(0, 100)
+      render: (text,record) => {
+        let contents = JSON.parse(text)
+        let i =0, content='';
+        for(i in contents.blocks){
+          content += contents.blocks[i].text
+        }
+        content = content.substring(0, 100)
+        return <a onClick={() => {
+          onViewItem(record)
+        }}>{content}</a>
+      }
     }, {
       title: 'Create_at',
       dataIndex: 'created_at',
@@ -70,16 +80,16 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
       width: 200,
       render: (text, record) => (
         <span>
-      <span className={styles.ant_divider}><a href="#" onClick={() => {
+      <span className={styles.ant_divider}><a onClick={() => {
         handleMenuDeleteClick(record._id)
       }}>Delete</a></span>
-      <span className={styles.ant_divider}><a href="#" onClick={() => {
+      <span className={styles.ant_divider}><a onClick={() => {
         onEditItem(record)
       }}>Edit</a></span>
-      <span className={styles.ant_divider}>{record.is_draft === 1 ? <a href="#" onClick={() => {
+      <span className={styles.ant_divider}>{record.is_draft === 1 ? <a onClick={() => {
         handleMenuUpClick(record._id)
       }}>Up</a> :
-        <a href="#" onClick={() => {
+        <a onClick={() => {
           handleMenuDownClick(record._id)
         }}>Down</a>}</span>
     </span>

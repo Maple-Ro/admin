@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Input, Modal, Select} from 'antd'
+import {Form, Input, Modal} from 'antd'
 import DraftEditor from '../../components/Editor/MyEditor';
 const FormItem = Form.Item;
 
 const modal = ({
-                 visible, type, item = {}, onOk, onCancel,
+                 visible, type, item = {}, onOk, onCancel, isView,
                  form: {
                    getFieldDecorator,
                    validateFields,
@@ -23,10 +23,12 @@ const modal = ({
         key: item.key,
       }
       onOk(data)
-      console.log('data', data);
     })
   }
-
+  /**
+   * 回调函数，更新content隐藏域内容
+   * @param content
+   */
   const getContents = function (content) {
     setFieldsValue({
       content: content
@@ -34,11 +36,12 @@ const modal = ({
   }
   const editorProps = {
     getContents: getContents,
-    content: item.content || '{"entityMap": {},"blocks": [{"key": "1ahm2","text": "Enter Your Ideas...","type": "unstyled","depth": 0,"inlineStyleRanges": [],"entityRanges": []}]}'
+    content: item.content || '',
+    readOnly : isView
   };
   const modalOpts = {
     width: 1200,
-    title: `${type === 'create' ? 'New article' : 'Edit article'}`,
+    title: `${type + ' article'}`,
     visible,
     onOk: handleOk,
     onCancel,
@@ -73,7 +76,7 @@ const modal = ({
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
-        <FormItem label="Title" hasFeedback {...formTitleLayout}>
+        <FormItem label="Title" hasFeedback>
           {getFieldDecorator('title', {
             initialValue: item.title,
             rules: [{required: true, message: 'title is required!'}]

@@ -1,3 +1,5 @@
+import axios from 'axios';
+import{apiURL, imgURL} from '../utils/config';
 import {get, post} from '../utils'
 
 /**
@@ -44,7 +46,12 @@ export async function update(params) {
 export async function uploadCallback(file) {
   const data = new FormData();
   data.append('file', file);
-  return post('api/article/upload', {
-    data: data
-  })
+  return axios.post(apiURL+'/api/article/upload', data)
+    .then(response => {
+      return {
+        data: {
+          link: imgURL + response.data.data.path
+        }
+      }
+    });
 }

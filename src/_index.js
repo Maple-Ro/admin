@@ -1,10 +1,14 @@
 import './_index.html'
 import 'babel-polyfill'
-import createLoading from 'dva-loading'
 import dva from 'dva'
+import createLoading from 'dva-loading'
+import { browserHistory } from 'dva/router'
 
 // 1. Initialize
-const app = dva(createLoading())
+const app = dva({
+    ...createLoading(),
+  history: browserHistory
+})
 
 // 2. Model
 app.model(require('./models/app'))
