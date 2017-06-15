@@ -7,7 +7,7 @@ import ArticleFilter from './articleFilter';
 import ArticleModal from './articleModal';
 
 function Articles({ location, dispatch, articles, loading}) {
-  const { list, pagination, currentItem, modalVisible, modalType} = articles; // articles同对应的model的namespace
+  const { list, pagination, currentItem, modalVisible, modalType, isView} = articles; // articles同对应的model的namespace
   const { field, keyword } = location.query;
 
   //表单数据处理
@@ -51,6 +51,17 @@ function Articles({ location, dispatch, articles, loading}) {
         payload: {
           modalType: 'update',
           currentItem: item,
+          isView:false
+        },
+      })
+    },
+    onViewItem (item) {
+      dispatch({
+        type: 'articles/showModal',
+        payload: {
+          modalType: 'view',
+          currentItem: item,
+          isView:true
         },
       })
     },
@@ -84,8 +95,13 @@ function Articles({ location, dispatch, articles, loading}) {
     item: modalType === 'create' ? {} : currentItem,
     type: modalType,
     visible: modalVisible,
+    isView:isView,
     onOk (data) {
-      dispatch({
+      dispatch(modalType === 'view' ?
+        dispatch({
+          type: 'articles/hideModal',
+        })
+        : {
         type: `articles/${modalType}`,
         payload: data,
       })

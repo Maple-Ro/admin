@@ -5,7 +5,7 @@ import DraftEditor from '../../components/Editor/MyEditor';
 const FormItem = Form.Item;
 
 const modal = ({
-                 visible, type, item = {}, onOk, onCancel,
+                 visible, type, item = {}, onOk, onCancel, isView,
                  form: {
                    getFieldDecorator,
                    validateFields,
@@ -36,11 +36,12 @@ const modal = ({
   }
   const editorProps = {
     getContents: getContents,
-    content: item.content || ''
+    content: item.content || '',
+    readOnly : isView
   };
   const modalOpts = {
     width: 1200,
-    title: `${type === 'create' ? 'New article' : 'Edit article'}`,
+    title: `${type + ' article'}`,
     visible,
     onOk: handleOk,
     onCancel,
@@ -75,7 +76,7 @@ const modal = ({
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
-        <FormItem label="Title" hasFeedback {...formTitleLayout}>
+        <FormItem label="Title" hasFeedback>
           {getFieldDecorator('title', {
             initialValue: item.title,
             rules: [{required: true, message: 'title is required!'}]

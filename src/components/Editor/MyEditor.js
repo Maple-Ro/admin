@@ -18,6 +18,7 @@ class DraftEditor extends React.Component {
       content = EditorState.createEmpty()
     }
     this.state = {
+      readOnly:props.readOnly || false,
       editorState: content
     }
 
@@ -29,7 +30,7 @@ class DraftEditor extends React.Component {
   }
 
   render() {
-    const {editorState} = this.state;
+    const {readOnly,editorState} = this.state;
     return (<Editor
       editorState={editorState}
       toolbarClassName={styles.toolbar}
@@ -38,6 +39,8 @@ class DraftEditor extends React.Component {
       onEditorStateChange={this.onEditorStateChange}
       toolbar={{image: {uploadCallback: uploadCallback}}}
       placeholder="Enter Your Idea..."
+      readOnly={readOnly}
+      toolbarHidden={readOnly}
     />)
   }
 }

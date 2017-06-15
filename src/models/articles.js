@@ -9,6 +9,7 @@ export default {
     currentItem: {},
     modalVisible: false,
     modalType: 'create',
+    isView:false,
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
