@@ -7,7 +7,7 @@ import ArticleFilter from './articleFilter';
 import ArticleModal from './articleModal';
 
 function Articles({ location, dispatch, articles, loading}) {
-  const { list, pagination, currentItem, modalVisible, modalType, isView} = articles; // articles同对应的model的namespace
+  const { list, pagination, currentItem, modalVisible, modalType, isView, cateList} = articles; // articles同对应的model的namespace
   const { field, keyword } = location.query;
 
   //表单数据处理
@@ -96,6 +96,7 @@ function Articles({ location, dispatch, articles, loading}) {
     type: modalType,
     visible: modalVisible,
     isView:isView,
+    cateList:cateList,
     onOk (data) {
       dispatch(modalType === 'view' ?
         dispatch({

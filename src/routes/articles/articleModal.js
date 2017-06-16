@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Input, Modal} from 'antd'
+import {Form, Input, Modal, Select} from 'antd'
 import DraftEditor from '../../components/Editor/MyEditor';
 const FormItem = Form.Item;
 
@@ -11,7 +11,7 @@ const modal = ({
                    validateFields,
                    getFieldsValue,
                    setFieldsValue
-                 },
+                 },cateList
                }) => {
   const handleOk = () => {
     validateFields((errors) => {
@@ -34,11 +34,13 @@ const modal = ({
       content: content
     })
   }
+
   const editorProps = {
     getContents: getContents,
     content: item.content || '',
     readOnly : isView
   };
+
   const modalOpts = {
     width: 1200,
     title: `${type + ' article'}`,
@@ -48,6 +50,10 @@ const modal = ({
     wrapClassName: 'vertical-center-modal',
   };
 
+  /**
+   * 布局相关 TODO Make it pretty
+   * @type {{labelCol: {span: number}, wrapperCol: {span: number}}}
+   */
   const formItemLayout = {
     labelCol: {
       span: 3,
@@ -73,15 +79,40 @@ const modal = ({
     },
   };
 
+  /**
+   * 分类下拉相关
+   * @param input
+   * @param option
+   */
+  const  filterOption= (input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+  const SelectProps = {
+    placeholder:"Select a category",
+    showSearch:true,
+    optionFilterProp:"children",
+    filterOption:filterOption
+}
+
+const cateOptionLists = cateList.map(d => <Select.Option key={d.value}>{d.name}</Select.Option>)
+
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
         <FormItem label="Title" hasFeedback>
           {getFieldDecorator('title', {
             initialValue: item.title,
-            rules: [{required: true, message: 'title is required!'}]
+            rules: [{required: true, message: 'Title is required!'}]
           })(
             <Input placeholder="Enter the title"/>
+          )}
+        </FormItem>
+        <FormItem label="Category" hasFeedback>
+          {getFieldDecorator('category', {
+            initialValue:item.category,
+            rules:[{required:true, message:'Category is required!'}]
+          })(
+            <Select {...SelectProps}>
+              {cateOptionLists}
+            </Select>
           )}
         </FormItem>
         <FormItem label="Content">

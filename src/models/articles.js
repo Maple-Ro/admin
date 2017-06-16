@@ -1,4 +1,4 @@
-import {create, remove, update, query, down, up, uploadCallback} from '../services/articles';
+import {create, remove, update, query, down, up, catelist} from '../services/articles';
 import {parse} from 'qs';
 import {message} from 'antd';
 
@@ -10,6 +10,7 @@ export default {
     modalVisible: false,
     modalType: 'create',
     isView:false,
+    cateList:[],
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -26,6 +27,7 @@ export default {
           dispatch({
             type: 'query', payload: location.query
           });
+          dispatch({type:'cateList'})
         }
       });
     },
@@ -86,6 +88,10 @@ export default {
       if (data.data.success) {
         yield put({type: 'reload'})
       }
+    },
+    *cateList ({payload}, {call, put}){
+      const data = yield call(catelist)
+      yield put({type:'cate',payload:{cateList:data.data.catelist}})
     }
   },
   reducers: {
@@ -106,5 +112,11 @@ export default {
     hideModal (state) {
       return {...state, modalVisible: false}
     },
+    cate(state,action){
+      const {cateList} = action.payload
+      return{
+        ...state,cateList
+      }
+    }
   }
 }

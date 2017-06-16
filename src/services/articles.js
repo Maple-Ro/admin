@@ -55,3 +55,7 @@ export async function uploadCallback(file) {
       }
     });
 }
+
+export async function catelist() {
+  return get('/api/article/catelist')
+}
