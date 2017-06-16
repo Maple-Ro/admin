@@ -21,7 +21,7 @@ function list({data, onEditItem, onAdd}) {
     // blue = Math.floor(Math.random()*256).toString(16);
     // color += red+green+blue
     return <Button
-      key={cate.name.hashCode()}
+      key={cate._id}
       onClick={()=>onEditItem(cate)}
       type="primary"
       style={{padding:5, margin:5}}

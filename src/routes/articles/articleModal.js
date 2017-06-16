@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Input, Modal, Select} from 'antd'
+import {Form, Input, Modal, Select, Switch} from 'antd'
 import DraftEditor from '../../components/Editor/MyEditor';
 const FormItem = Form.Item;
 
@@ -92,12 +92,12 @@ const modal = ({
     filterOption:filterOption
 }
 
-const cateOptionLists = cateList.map(d => <Select.Option key={d.value}>{d.name}</Select.Option>)
+const cateOptionLists = cateList.map(d=> <Select.Option key={d._id} value={d.name}>{d.name}</Select.Option>)
 
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
-        <FormItem label="Title" hasFeedback>
+        <FormItem label="Title" hasFeedback key="Title">
           {getFieldDecorator('title', {
             initialValue: item.title,
             rules: [{required: true, message: 'Title is required!'}]
@@ -105,7 +105,7 @@ const cateOptionLists = cateList.map(d => <Select.Option key={d.value}>{d.name}<
             <Input placeholder="Enter the title"/>
           )}
         </FormItem>
-        <FormItem label="Category" hasFeedback>
+        <FormItem label="Category" hasFeedback key="Category" >
           {getFieldDecorator('category', {
             initialValue:item.category,
             rules:[{required:true, message:'Category is required!'}]
@@ -115,7 +115,14 @@ const cateOptionLists = cateList.map(d => <Select.Option key={d.value}>{d.name}<
             </Select>
           )}
         </FormItem>
-        <FormItem label="Content">
+        <FormItem label="发表状态" key="is_draft" >
+          {getFieldDecorator('is_draft', {
+            valuePropName:item.is_draft !==1 ? 'checked' : ''
+          })(
+            <Switch checkedChildren={'发表'} unCheckedChildren={'草稿'} />
+          )}
+        </FormItem>
+        <FormItem label="Content" key="Content">
           {getFieldDecorator('content', {
             initialValue: item.content,
             rules: [{required: true, message: 'content is required!'}]

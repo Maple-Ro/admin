@@ -41,12 +41,24 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
         <span href="#" className={styles.paper_formal}>&nbsp;</span>
     },
     {
+      title: 'Category',
+      dataIndex: 'category',
+      key: 'Category',
+      width: 75
+    },
+    {
       title: 'Title',
       dataIndex: 'title',
       key: 'title',
-      width: 150,
-      render: text => <span >{text}</span>,
-    }, {
+      width: 150
+    },
+    {
+      title: 'Label',
+      dataIndex: 'label',
+      key: 'label',
+      width: 150
+    },
+    {
       title: 'Content',
       dataIndex: 'content',
       key: 'content',
