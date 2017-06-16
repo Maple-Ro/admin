@@ -46,7 +46,7 @@ export async function update(params) {
 export async function uploadCallback(file) {
   const data = new FormData();
   data.append('file', file);
-  return axios.post(apiURL+'/api/article/upload', data)
+  return axios.post(apiURL + '/api/article/upload', data)
     .then(response => {
       return {
         data: {
@@ -57,5 +57,17 @@ export async function uploadCallback(file) {
 }
 
 export async function catelist() {
-  return get('/api/article/catelist')
+  return get('/api/category/list')
+}
+
+export async function new_cate(params) {
+  return post('/api/category/edit', {
+    data: params
+  })
+}
+
+export async function edit_cate(params) {
+  return post('/api/category/edit', {
+    data: params
+  })
 }

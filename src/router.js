@@ -37,12 +37,28 @@ const Routers = function ({ history, app }) {
           },
         },
         {
-          path: 'articles',
+          path: 'articles/list',
           getComponent (nextState, callback) {
             require.ensure([], require => {
               registerModel(app, require('./models/articles'));
               callback(null, require('./routes/articles'))
             }, 'articles')
+          },
+        },{
+          path: 'articles/category',
+          getComponent (nextState, callback) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/articles'));
+              callback(null, require('./routes/articles/category'))
+            }, 'category')
+          },
+        },{
+          path: 'articles/tag',
+          getComponent (nextState, callback) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/articles'));
+              callback(null, require('./routes/articles/tag'))
+            }, 'tag')
           },
         },
         {

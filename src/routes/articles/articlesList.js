@@ -63,13 +63,13 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
         }}>{content}</a>
       }
     }, {
-      title: 'Create_at',
+      title: 'Create time',
       dataIndex: 'created_at',
       key: 'created_at',
       width: 75
     },
     {
-      title: 'Update_at',
+      title: 'Update time',
       dataIndex: 'updated_at',
       key: 'updated_at',
       width: 75

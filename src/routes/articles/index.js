@@ -114,6 +114,7 @@ function Articles({ location, dispatch, articles, loading}) {
     },
   };
   const ArticleModalGen = () => <ArticleModal {...articleModalProps} />;
+
   return (
     <div className="content-inner">
       <ArticleFilter {...articleFilterProps} />

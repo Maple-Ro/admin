@@ -1,4 +1,4 @@
-import {create, remove, update, query, down, up, catelist} from '../services/articles';
+import {create, remove, update, query, down, up, catelist, new_cate, edit_cate} from '../services/articles';
 import {parse} from 'qs';
 import {message} from 'antd';
 
@@ -9,8 +9,10 @@ export default {
     currentItem: {},
     modalVisible: false,
     modalType: 'create',
+    cateModalType: 'new',
     isView:false,
     cateList:[],
+    labelList:[],
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -23,11 +25,15 @@ export default {
   subscriptions: {
     setup({dispatch, history}){
       return history.listen((location) => {
-        if (location.pathname === '/articles') {
+        if (location.pathname === '/articles/list' || location.pathname === '/articles') {
           dispatch({
             type: 'query', payload: location.query
           });
           dispatch({type:'cateList'})
+        }else if (location.pathname === '/articles/category'){
+          dispatch({type:'cateList'})
+        }else if (location.pathname === '/articles/tag'){
+          dispatch({type:'labelList'})
         }
       });
     },
@@ -92,6 +98,24 @@ export default {
     *cateList ({payload}, {call, put}){
       const data = yield call(catelist)
       yield put({type:'cate',payload:{cateList:data.data.catelist}})
+    },
+    *new_cate({payload},{call,put}){
+      yield put({type:'hideModal'})
+      const {data} = yield call(new_cate,payload)
+      if (data.success) {
+        message.success('save success', 1);
+        yield put({type: 'cateList'})
+      }
+    },
+    *edit_cate({payload},{select, call,put}){
+      yield put({type:'hideModal'})
+      const id = yield select(({articles}) => articles.currentItem._id)
+      const new_cate = {...payload, id}
+      const data = yield call(edit_cate, new_cate)
+      if (data.success) {
+        message.success('save success', 1);
+        yield put({type: 'cateList'})
+      }
     }
   },
   reducers: {
