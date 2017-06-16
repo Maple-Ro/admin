@@ -1,7 +1,7 @@
 /**
  * Created by stanley on 2017/6/16 0016.
  */
-import {Tag, Button} from 'antd';
+import {Button} from 'antd';
 import React from "react";
 import PropTypes from 'prop-types'
 
@@ -13,23 +13,18 @@ const preColor = ['pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple', 'y
 // border-color: #fde3cf;
 // }
 function list({data, onEditItem, onAdd}) {
-  const cateLists = data.map((cate, index) => {
-    let color = preColor[Math.floor(Math.random() * preColor.length)];
+  const cateLists = data.map(cate => {
+    // let color = preColor[Math.floor(Math.random() * preColor.length)];
     // let color = '#',
     // red = Math.floor(Math.random()*256).toString(16),
     // green = Math.floor(Math.random()*256).toString(16),
     // blue = Math.floor(Math.random()*256).toString(16);
     // color += red+green+blue
     return <Button
-      key={index}
+      key={cate.name.hashCode()}
       onClick={()=>onEditItem(cate)}
       type="primary"
-      style={
-        {
-        padding:5,
-        margin:5
-        }
-      }
+      style={{padding:5, margin:5}}
     >{cate.name}</Button>;
   });
 

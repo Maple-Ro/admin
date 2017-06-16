@@ -61,7 +61,7 @@ export async function catelist() {
 }
 
 export async function new_cate(params) {
-  return post('/api/category/edit', {
+  return post('/api/category/new', {
     data: params
   })
 }

@@ -19,27 +19,18 @@ const modal = ({
       const data = {
         ...getFieldsValue(),
         key: item.key,
-      }
+      };
       onOk(data)
     })
-  }
+  };
 
   const modalOpts = {
     width: 280,
-    title: `${type + ' category name'}`,
+    title: `${type + ' category'}`,
     visible,
     onOk: handleOk,
     onCancel,
     wrapClassName: 'vertical-center-modal'
-  };
-
-  const formTitleLayout = {
-    labelCol: {
-      span: 3,
-    },
-    wrapperCol: {
-      span: 10,
-    },
   };
 
   return (
@@ -47,7 +38,7 @@ const modal = ({
       <Form layout="horizontal">
         <FormItem label="Name" hasFeedback>
           {getFieldDecorator('name', {
-            initialValue: item.name,
+            initialValue: item.name || '',
             rules: [{required: true, message: 'Name is required!'}]
           })(
             <Input placeholder="Enter a Name"/>

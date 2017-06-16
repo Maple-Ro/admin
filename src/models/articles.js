@@ -103,8 +103,10 @@ export default {
       yield put({type:'hideModal'})
       const {data} = yield call(new_cate,payload)
       if (data.success) {
-        message.success('save success', 1);
+        message.success(data.message, 1);
         yield put({type: 'cateList'})
+      }else {
+        message.error(data.message);
       }
     },
     *edit_cate({payload},{select, call,put}){
@@ -112,8 +114,8 @@ export default {
       const id = yield select(({articles}) => articles.currentItem._id)
       const new_cate = {...payload, id}
       const data = yield call(edit_cate, new_cate)
-      if (data.success) {
-        message.success('save success', 1);
+      if (data.data.success) {
+        message.success(data.data.message, 1);
         yield put({type: 'cateList'})
       }
     }
