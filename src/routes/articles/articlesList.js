@@ -35,10 +35,10 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
   const columns = [
     {
       title: 'State',
-      key: 'is_draft',
+      key: 'state',
       'width': 100,
-      render: (record) => record.is_draft === 1 ? <span href="#" className={styles.paper_draft}>&nbsp;</span> :
-        <span href="#" className={styles.paper_formal}>&nbsp;</span>
+      render: (record) => record.state ? <span href="#" className={styles.paper_formal}>&nbsp;</span> :
+        <span href="#" className={styles.paper_draft}>&nbsp;</span>
     },
     {
       title: 'Category',
@@ -98,7 +98,7 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
       <span className={styles.ant_divider}><a onClick={() => {
         onEditItem(record)
       }}>Edit</a></span>
-      <span className={styles.ant_divider}>{record.is_draft === 1 ? <a onClick={() => {
+      <span className={styles.ant_divider}>{!record.state ? <a onClick={() => {
         handleMenuUpClick(record._id)
       }}>Up</a> :
         <a onClick={() => {

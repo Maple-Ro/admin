@@ -93,7 +93,6 @@ const modal = ({
 }
 
 const cateOptionLists = cateList.map(d=> <Select.Option key={d._id} value={d.name}>{d.name}</Select.Option>)
-
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
@@ -115,9 +114,10 @@ const cateOptionLists = cateList.map(d=> <Select.Option key={d._id} value={d.nam
             </Select>
           )}
         </FormItem>
-        <FormItem label="发表状态" key="is_draft" >
-          {getFieldDecorator('is_draft', {
-            valuePropName:item.is_draft !==1 ? 'checked' : ''
+        <FormItem label="发表状态" key="State" >
+          {getFieldDecorator('state', {
+            valuePropName:'checked',
+            initialValue:item.state
           })(
             <Switch checkedChildren={'发表'} unCheckedChildren={'草稿'} />
           )}
