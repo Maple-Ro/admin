@@ -1,4 +1,4 @@
-import {Modal, Table} from "antd";
+import {Modal, Table, Tag} from "antd";
 import React from "react";
 import PropTypes from 'prop-types'
 import styles from "./style.less";
@@ -53,20 +53,27 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
       width: 150
     },
     {
-      title: 'Label',
-      dataIndex: 'label',
-      key: 'label',
-      width: 150
+      title: 'Tags',
+      dataIndex: 'tags',
+      key: 'tags',
+      width: 200,
+      render: (text, record) => {
+        let preColor = ['pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple', 'yellow'];
+        return record.tags.map(d => {
+          const color = preColor[Math.floor(Math.random() * preColor.length)];
+          return <Tag key={d} color={color} style={{marginBottom:3}}>{d}</Tag>
+        })
+      }
     },
     {
       title: 'Content',
       dataIndex: 'content',
       key: 'content',
-      width: 400,
-      render: (text,record) => {
+      width: 300,
+      render: (text, record) => {
         let contents = JSON.parse(text)
-        let i =0, content='';
-        for(i in contents.blocks){
+        let i = 0, content = '';
+        for (i in contents.blocks) {
           content += contents.blocks[i].text
         }
         content = content.substring(0, 100)

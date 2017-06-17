@@ -1,4 +1,4 @@
-import {create, remove, update, query, down, up, catelist, new_cate, edit_cate} from '../services/articles';
+import {create, remove, update, query, down, up, catelist, new_cate, edit_cate,tagslist} from '../services/articles';
 import {parse} from 'qs';
 import {message} from 'antd';
 
@@ -10,16 +10,16 @@ export default {
     modalVisible: false,
     modalType: 'create',
     cateModalType: 'new',
-    isView:false,
-    cateList:[],
-    labelList:[],
+    isView: false,
+    cateList: [],
+    tagsList: [],
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
       showTotal: total => `共 ${total} 条`,
       current: 1,
       total: null,
-      pageSize:null
+      pageSize: null
     },
   },
   subscriptions: {
@@ -29,11 +29,12 @@ export default {
           dispatch({
             type: 'query', payload: location.query
           });
-          dispatch({type:'cateList'})
-        }else if (location.pathname === '/articles/category'){
-          dispatch({type:'cateList'})
-        }else if (location.pathname === '/articles/tag'){
-          dispatch({type:'labelList'})
+          dispatch({type: 'cateList'})
+          dispatch({type: 'tagsList'})
+        } else if (location.pathname === '/articles/category') {
+          dispatch({type: 'cateList'})
+        } else if (location.pathname === '/articles/tag') {
+          dispatch({type: 'tagsList'})
         }
       });
     },
@@ -41,7 +42,7 @@ export default {
   effects: {
     *query({payload}, {call, put}){
       const {data} = yield call(query, payload);
-      if(data){
+      if (data) {
         yield put({
           type: 'updateState',
           payload: {
@@ -95,22 +96,26 @@ export default {
         yield put({type: 'reload'})
       }
     },
+    *tagsList({payload}, {call, put}){
+      const data = yield call(tagslist)
+      yield put({type: 'tags', payload: {tagsList: data.data.tagslist}})
+    },
     *cateList ({payload}, {call, put}){
       const data = yield call(catelist)
-      yield put({type:'cate',payload:{cateList:data.data.catelist}})
+      yield put({type: 'cate', payload: {cateList: data.data.catelist}})
     },
-    *new_cate({payload},{call,put}){
-      yield put({type:'hideModal'})
-      const {data} = yield call(new_cate,payload)
+    *new_cate({payload}, {call, put}){
+      yield put({type: 'hideModal'})
+      const {data} = yield call(new_cate, payload)
       if (data.success) {
         message.success(data.message, 1);
         yield put({type: 'cateList'})
-      }else {
+      } else {
         message.error(data.message);
       }
     },
-    *edit_cate({payload},{select, call,put}){
-      yield put({type:'hideModal'})
+    *edit_cate({payload}, {select, call, put}){
+      yield put({type: 'hideModal'})
       const id = yield select(({articles}) => articles.currentItem._id)
       const new_cate = {...payload, id}
       const data = yield call(edit_cate, new_cate)
@@ -138,10 +143,16 @@ export default {
     hideModal (state) {
       return {...state, modalVisible: false}
     },
-    cate(state,action){
+    cate(state, action){
       const {cateList} = action.payload
-      return{
-        ...state,cateList
+      return {
+        ...state, cateList
+      }
+    },
+    tags(state, action){
+      const {tagsList} = action.payload
+      return {
+        ...state, tagsList
       }
     }
   }

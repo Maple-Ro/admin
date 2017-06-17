@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import {connect} from 'dva';
-import { routerRedux } from 'dva/router';
+import {routerRedux} from 'dva/router';
 import List from './articlesList';
 import ArticleFilter from './articleFilter';
 import ArticleModal from './articleModal';
 
-function Articles({ location, dispatch, articles, loading}) {
-  const { list, pagination, currentItem, modalVisible, modalType, isView, cateList} = articles; // articles同对应的model的namespace
-  const { field, keyword } = location.query;
+function Articles({location, dispatch, articles, loading}) {
+  const {list, pagination, currentItem, modalVisible, modalType, isView, cateList, tagsList} = articles; // articles同对应的model的namespace
+  const {field, keyword} = location.query;
 
   //表单数据处理
   const articleListProps = {
@@ -17,7 +17,7 @@ function Articles({ location, dispatch, articles, loading}) {
     pagination,
     location,
     onPageChange (page) {
-      const { query, pathname } = location;
+      const {query, pathname} = location;
       dispatch(routerRedux.push({
         pathname,
         query: {
@@ -35,14 +35,14 @@ function Articles({ location, dispatch, articles, loading}) {
     },
     onDownItem(id){
       dispatch({
-        type:'articles/down',
-        payload:id
+        type: 'articles/down',
+        payload: id
       })
     },
     onUpItem(id){
       dispatch({
-        type:'articles/up',
-        payload:id
+        type: 'articles/up',
+        payload: id
       })
     },
     onEditItem (item) {
@@ -51,7 +51,7 @@ function Articles({ location, dispatch, articles, loading}) {
         payload: {
           modalType: 'update',
           currentItem: item,
-          isView:false
+          isView: false
         },
       })
     },
@@ -61,7 +61,7 @@ function Articles({ location, dispatch, articles, loading}) {
         payload: {
           modalType: 'view',
           currentItem: item,
-          isView:true
+          isView: true
         },
       })
     },
@@ -95,17 +95,18 @@ function Articles({ location, dispatch, articles, loading}) {
     item: modalType === 'create' ? {} : currentItem,
     type: modalType,
     visible: modalVisible,
-    isView:isView,
-    cateList:cateList,
+    isView: isView,
+    cateList: cateList,
+    tagsList: tagsList,
     onOk (data) {
       dispatch(modalType === 'view' ?
         dispatch({
           type: 'articles/hideModal',
         })
         : {
-        type: `articles/${modalType}`,
-        payload: data,
-      })
+          type: `articles/${modalType}`,
+          payload: data,
+        })
     },
     onCancel () {
       dispatch({
@@ -123,11 +124,11 @@ function Articles({ location, dispatch, articles, loading}) {
     </div>
   )
 }
-Articles.PropTypes={
+Articles.PropTypes = {
   articles: PropTypes.object,
   location: PropTypes.object,
   dispatch: PropTypes.func,
   loading: PropTypes.bool
 }
 
-export default connect(({articles, loading})=>({articles, loading:loading.models.articles}))(Articles);
+export default connect(({articles, loading}) => ({articles, loading: loading.models.articles}))(Articles);

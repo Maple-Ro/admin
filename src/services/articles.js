@@ -60,6 +60,10 @@ export async function catelist() {
   return get('/api/category/list')
 }
 
+export async function tagslist() {
+  return get('/api/tags/list')
+}
+
 export async function new_cate(params) {
   return post('/api/category/new', {
     data: params
