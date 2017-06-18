@@ -72,7 +72,7 @@ function Articles({location, dispatch, articles, loading}) {
     keyword,
     onSearch (fieldsValue) {
       fieldsValue.keyword.length ? dispatch(routerRedux.push({
-        pathname: '/articles',
+        pathname: '/articles/list',
         query: {
           field: fieldsValue.field,
           keyword: fieldsValue.keyword,

@@ -1,15 +1,27 @@
-import React, { PropTypes } from 'react'
+import React  from 'react'
+import PropTypes from 'prop-types';
 import { connect } from 'dva'
 import Login from './login'
 import { Layout } from '../components'
-import { Spin } from 'antd'
-import { classnames, config, log } from '../utils'
+import { classnames, config } from '../utils'
 import { Helmet } from 'react-helmet'
 import '../components/skin.less'
-const { Header, Bread, Footer, Sider, styles } = Layout;
+import NProgress from 'nprogress'
 
+const { Header, Bread, Footer, Sider, styles } = Layout;
+let lastHref;
 const App = ({ children, location, dispatch, app, loading }) => {
   const { login, loginButtonLoading, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys } = app;
+  const href = window.location.href;
+  /*进度条加载*/
+  if(href!==lastHref){
+    NProgress.start();
+    if(loading&&!loading.global){
+      NProgress.done();
+      lastHref= href;
+    }
+  }
+
   const loginProps = {
     loading,
     loginButtonLoading,
@@ -76,7 +88,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
           </div>
         </div>
         : <div className={styles.spin}>
-            <Login {...loginProps} />+
+            <Login {...loginProps} />
         </div>}
     </div>
   )

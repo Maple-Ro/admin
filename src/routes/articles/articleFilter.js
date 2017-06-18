@@ -9,7 +9,7 @@ const ArticleFilter = ({field, keyword, onSearch, onAdd}) => {
     keyword,
     size: 'large',
     select: true,
-    selectOptions: [{ value: 'title', name: '标题' }, { value: 'content', name: '内容' }],
+    selectOptions: [{ value: 'title', name: 'Title' }, { value: 'category', name: 'Category' },{ value: 'tags', name: 'Tags' },{ value: 'content', name: 'Content' }],
     selectProps: {
       defaultValue: field || 'title',
     },

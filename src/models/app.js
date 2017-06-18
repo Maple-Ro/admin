@@ -1,14 +1,12 @@
-import { login, logout } from '../services/app';
-import {log} from '../utils';
-import { parse } from 'qs';
-import cookie from 'react-cookie';
+import {login, logout} from '../services/app';
+import {parse} from 'qs';
+import Cookies from 'universal-cookie';
 
-
+const cookie = new Cookies();
 export default {
   namespace: 'app',
   state: {
-    // login: cookie.load('t')===undefined,
-    login: localStorage.getItem('isLogin')!==undefined,
+    login: cookie.get('t') !== undefined,
     user: {
       name: 'Endless',
     },
@@ -20,51 +18,57 @@ export default {
     navOpenKeys: []
   },
   subscriptions: {
-    setup ({ dispatch }) {
+    setup ({dispatch}) {
       window.onresize = () => {
-        dispatch({ type: 'changeNavbar' })
+        dispatch({type: 'changeNavbar'})
       }
     },
   },
   effects: {
-    *login ({payload}, { call, put }) {
-      yield put({ type: 'showLoginButtonLoading' })
-      const { success, username } = yield call(login, parse(payload))
+    *login ({payload}, {call, put}) {
+      yield put({type: 'showLoginButtonLoading'})
+      const {success, username} = yield call(login, parse(payload))
       if (success) {
-        localStorage.setItem('isLogin', 'true')
-        // cookie.set('t', '1', {expires:'2017-05-23',path:'/'})
+        // localStorage.setItem('isLogin', 'true')
+        debugger
+        let now = new Date(2017, 11, 17, 3, 24, 0);
+        cookie.set('t', '1', {expires: now, path: '/', domain:'.localhost',httpOnly: true})
         yield put({
           type: 'loginSuccess',
-          payload: {user: {name: username}}})
+          payload: {user: {name: username}}
+        })
       } else {
         yield put({type: 'loginFail'})
       }
     },
-    *logout ({payload}, { call, put }) {
+    *logout ({payload}, {call, put}) {
       const data = yield call(logout, parse(payload))
-      if (data.success) {
-        localStorage.removeItem('isLogin')
+      debugger
+      if (data.data.success) {
+        // localStorage.removeItem('isLogin')
+        debugger
+        cookie.remove('t')
         yield put({type: 'logoutSuccess',})
       }
     },
-    *switchSider ({payload}, { put }) {
+    *switchSider ({payload}, {put}) {
       yield put({
         type: 'handleSwitchSider',
       })
     },
-    *changeTheme ({payload}, { put }) {
+    *changeTheme ({payload}, {put}) {
       yield put({
         type: 'handleChangeTheme',
       })
     },
-    *changeNavbar ({payload}, { put }) {
+    *changeNavbar ({payload}, {put}) {
       if (document.body.clientWidth < 769) {
-        yield put({ type: 'showNavbar' })
+        yield put({type: 'showNavbar'})
       } else {
-        yield put({ type: 'hideNavbar' })
+        yield put({type: 'hideNavbar'})
       }
     },
-    *switchMenuPopver ({payload}, { put }) {
+    *switchMenuPopver ({payload}, {put}) {
       yield put({
         type: 'handleSwitchMenuPopver',
       })

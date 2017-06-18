@@ -7,6 +7,6 @@ export async function login (params) {
 }
 
 export async function logout () {
-  return get('/api/logout',{})
+  return post('/api/logout')
 }
 
