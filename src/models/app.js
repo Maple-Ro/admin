@@ -6,7 +6,8 @@ const cookie = new Cookies();
 export default {
   namespace: 'app',
   state: {
-    login: cookie.get('t') !== undefined,
+    // login: cookie.get('t') !== undefined,
+    login:sessionStorage.getItem('isLogin')==='true',
     user: {
       name: 'Endless',
     },
@@ -29,10 +30,9 @@ export default {
       yield put({type: 'showLoginButtonLoading'})
       const {success, username} = yield call(login, parse(payload))
       if (success) {
-        // localStorage.setItem('isLogin', 'true')
-        debugger
-        let now = new Date(2017, 11, 17, 3, 24, 0);
-        cookie.set('t', '1', {expires: now, path: '/', domain:'.localhost',httpOnly: true})
+        sessionStorage.setItem('isLogin', 'true')
+        // let now = new Date(2017, 11, 17, 3, 24, 0);
+        // cookie.set('t', '1', {expires: now, path: '/', domain:'.localhost',httpOnly: true})
         yield put({
           type: 'loginSuccess',
           payload: {user: {name: username}}
@@ -45,9 +45,8 @@ export default {
       const data = yield call(logout, parse(payload))
       debugger
       if (data.data.success) {
-        // localStorage.removeItem('isLogin')
-        debugger
-        cookie.remove('t')
+        sessionStorage.removeItem('isLogin')
+        // cookie.remove('t')
         yield put({type: 'logoutSuccess',})
       }
     },

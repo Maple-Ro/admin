@@ -65,7 +65,7 @@
     "start": "dora --plugins \"proxy,webpack?publicPath=/,webpack-hmr,browser-history?index=/src/index.html\"",
     "dev": "dora --plugins \"webpack?publicPath=/,webpack-hmr,browser-history?index=/src/index.html\"",
     "lint": "eslint --fix --ext .js src",
-    "build": "roadhog build"
+    "build": "atool-build --hash"
   },
   "theme": "./src/theme.js",
   "standard": {
