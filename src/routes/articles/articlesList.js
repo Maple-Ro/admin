@@ -19,7 +19,6 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
     confirm({
       title: 'Really down this paper?',
       onOk(){
-        onDownItem(id)
       }
     })
   };
@@ -105,12 +104,9 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
       <span className={styles.ant_divider}><a onClick={() => {
         onEditItem(record)
       }}>Edit</a></span>
-      <span className={styles.ant_divider}>{!record.state ? <a onClick={() => {
-        handleMenuUpClick(record._id)
-      }}>Up</a> :
-        <a onClick={() => {
-          handleMenuDownClick(record._id)
-        }}>Down</a>}</span>
+      <span className={styles.ant_divider}>{!record.state ?
+        <a onClick={() =>onUpItem(record._id)}>Up</a> :
+        <a onClick={() =>onDownItem(record._id)}>Down</a>}</span>
     </span>
       ),
     }];

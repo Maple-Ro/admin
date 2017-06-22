@@ -16,7 +16,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
   /*进度条加载*/
   if(href!==lastHref){
     NProgress.start();
-    if(loading&&!loading.global){
+    if(!loading.global){
       NProgress.done();
       lastHref= href;
     }
@@ -99,7 +99,7 @@ App.propTypes = {
   location: PropTypes.object,
   dispatch: PropTypes.func,
   app: PropTypes.object,
-  loading: PropTypes.bool
+  loading: PropTypes.object
 }
 
-export default connect(({ app, loading }) => ({ app, loading: loading.models.app }))(App)
+export default connect(({ app, loading }) => ({ app, loading: loading }))(App)

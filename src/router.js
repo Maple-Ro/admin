@@ -3,19 +3,16 @@ import { Router } from 'dva/router'
 // import pathToRegexp from 'path-to-regexp'
 import App from './routes/app'
 
-const cached = {};
 const registerModel = (app, model) => {
-  if (!cached[model.namespace]) {
+  if (!(app._models.filter(m => m.namespace === model.namespace).length === 1)) {
     app.model(model)
-    cached[model.namespace] = 1
   }
-};
+}
 
 const Routers = function ({ history, app }) {
   const handleChildRoute = ({ location, params, routes }) => {
     // console.log(location, params, routes)
   };
-
   const routes = [
     {
       path: '/',
