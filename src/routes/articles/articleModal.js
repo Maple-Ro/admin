@@ -155,7 +155,7 @@ const modal = ({
             initialValue: item.content,
             rules: [{required: true, message: 'content is required!'}]
           })(
-            <Input placeholder="Enter the content" type="hidden"/>
+            <Input type="hidden"/>
           )}
           <DraftEditor {...editorProps}/>
         </FormItem>
