@@ -15,4 +15,9 @@ module.exports = [
       {key:'tag',name:'Label Tag', icon:'bars'}
     ]
   },
+  {
+    key:'ss',
+    name:'SS Manage',
+    icon:'laptop'
+  }
 ];

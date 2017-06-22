@@ -21,8 +21,8 @@ const MyMap = React.createClass({
     }
     const chart = new G2.Chart({
       id: 'chart',
-      width: 650,
-      height: 430,
+      width: 800,
+      height: 600,
       plotCfg: {
         margin: [10, 105]
       }

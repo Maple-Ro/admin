@@ -5,6 +5,6 @@ module.exports = {
   logoSrc: 'http://tsing.studio/themes/feiyang/images/favicon.ico',
   logoText: 'MapleImage',
   iconFontUrl: '//at.alicdn.com/t/font_c4y7asse3q1cq5mi.js',
-  apiURL: 'http://liutsing.io',
-  imgURL:'http://img.liutsing.io'
+  apiURL: 'http://tsing.studio',
+  imgURL:'http://tsing.studio'
 }

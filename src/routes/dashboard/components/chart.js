@@ -5,9 +5,9 @@ import G2 from 'g2';
 
 const config = {
   width: 800,
-  height: 500,
+  height: 600,
   plotCfg: {
-    margin: [20, 60, 80, 120]
+    margin: [20, 60, 100, 120]
   },
   forceFit: true, //是否适应容器的宽高
   animate: true

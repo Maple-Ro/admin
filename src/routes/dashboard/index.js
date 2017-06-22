@@ -1,9 +1,8 @@
-import React, {PropTypes} from "react";
+import React from "react";
+import PropTypes from 'prop-types';
 import {connect} from "dva";
 import {Card, Col, Row} from "antd";
-import {NumberCard, Browser, OS, Weather, MyChart, MyMap} from "./components";
-import styles from "./index.less";
-import {color,log} from "../../utils";
+import {NumberCard, OS, Weather, MyChart, MyMap} from "./components";
 
 const bodyStyle = {
   bodyStyle: {

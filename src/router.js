@@ -57,6 +57,14 @@ const Routers = function ({ history, app }) {
               callback(null, require('./routes/articles/tag'))
             }, 'tag')
           },
+        },{
+          path: 'ss',
+          getComponent (nextState, callback) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/dashboard'));
+              callback(null, require('./routes/dashboard/ss'))
+            }, 'ss')
+          },
         },
         {
           path: '*',

@@ -15,8 +15,8 @@ function Sider ({ siderFold, darkTheme, location, changeTheme, navOpenKeys, chan
   return (
     <div>
       <div className={styles.logo}>
-        <img alt={'logo'} src={config.logoSrc} />
-        {siderFold ? '' : <span>{config.logoText}</span>}
+        <a href="/dashboard"><img alt={'logo'} src={config.logoSrc} />
+          {siderFold ? '' : <span>{config.logoText}</span>}</a>
       </div>
       <Menus {...menusProps} />
       {!siderFold ? <div className={styles.switchtheme}>
