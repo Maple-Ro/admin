@@ -4,33 +4,22 @@ import PropTypes from 'prop-types'
 import styles from "./style.less";
 import classnames from 'classnames'
 import AnimTableBody from '../../components/DataTable/AnimTableBody';
+import DropOption from '../../components/DropOption'
 
 const confirm = Modal.confirm;
 function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEditItem, onDownItem, onUpItem, location, onViewItem}) {
-  const handleMenuDeleteClick = (id) => {
-    confirm({
-      title: 'Really delete this paper?',
-      onOk(){
-        onDeleteItem(id)
-      }
-    })
+  const handleMenuClick = (record, e) => {
+    switch (e.key){
+      case 'edit': onEditItem(record);break;
+      case 'del': confirm({
+        title:'Really want to del it',onOk(){
+        onDeleteItem(record._id);
+      }}); break;
+      case 'up': onUpItem(record._id);break;
+      case 'down': onDownItem(record._id);break;
+      default:break;
+    }
   }
-  const handleMenuDownClick = (id) => {
-    confirm({
-      title: 'Really down this paper?',
-      onOk(){
-      }
-    })
-  };
-  const handleMenuUpClick = (id) => {
-    confirm({
-      title: 'Really up this paper?',
-      onOk(){
-        onUpItem(id)
-      }
-    })
-  };
-
   const columns = [
     {
       title: 'State',
@@ -58,9 +47,9 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
       width: 200,
       render: (text, record) => {
         let preColor = ['pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple', 'yellow'];
-        return record.tags.map(d => {
+       return record.tags.map(d => {
           const color = preColor[Math.floor(Math.random() * preColor.length)];
-          return <Tag key={d} color={color} style={{marginBottom:3}}>{d}</Tag>
+          return <Tag key={d} color={color} style={{marginBottom:3}}>#{d}</Tag>
         })
       }
     },
@@ -95,20 +84,12 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
     {
       title: 'Action',
       key: 'action',
-      width: 200,
-      render: (text, record) => (
-        <span>
-      <span className={styles.ant_divider}><a onClick={() => {
-        handleMenuDeleteClick(record._id)
-      }}>Delete</a></span>
-      <span className={styles.ant_divider}><a onClick={() => {
-        onEditItem(record)
-      }}>Edit</a></span>
-      <span className={styles.ant_divider}>{!record.state ?
-        <a onClick={() =>onUpItem(record._id)}>Up</a> :
-        <a onClick={() =>onDownItem(record._id)}>Down</a>}</span>
-    </span>
-      ),
+      width: 60,
+      render: (text, record) => {
+        let options = [{ key: 'edit', name: 'edit' }, { key: 'del', name: 'del' }];
+        !record.state ? options.push({key:'up', name:'up'}) : options.push({key:'down', name:'down'});
+        return <DropOption menuOptions={options} onMenuClick={e=>handleMenuClick(record, e)}/>
+      },
     }];
 
   const getBodyWrapperProps = {

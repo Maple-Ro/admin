@@ -78,7 +78,7 @@ function Articles({location, dispatch, articles, loading}) {
           keyword: fieldsValue.keyword,
         },
       })) : dispatch(routerRedux.push({
-        pathname: '/articles',
+        pathname: '/articles/list',
       }))
     },
     onAdd () {

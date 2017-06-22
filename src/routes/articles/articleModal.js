@@ -96,7 +96,7 @@ const modal = ({
    * 标签分类相关
    * @type {XML}
    */
-  tagsList = tagsList ? tagsList : [{name:'test'}]; //array
+  tagsList = tagsList.length===0 ? tagsList : [{name:'test'}]; //array
   const tagsOptionList = tagsList.map(d => < Select.Option key={d.name} value={d.name}>{d.name}</ Select.Option>)
   function tagsHandleChange(value) {
     setFieldsValue({
