@@ -5,14 +5,14 @@ import {Col, Row} from "antd";
 import {MyChart, MyMap} from "./../components";
 
 function SS({dashboard}) {
-  const {charts} = dashboard;
+  const {charts,map} = dashboard;
   return (
     <div>
       <Row gutter={24}>
         <Col>
           <div>
             <p style={{textAlign:'center',paddingTop:15,paddingBottom:15,fontSize:18}}>Shadowsocks Service Call Map</p>
-            <MyMap/>
+            <MyMap data={map}/>
           </div>
         </Col>
       </Row>

@@ -22,3 +22,7 @@ export async function qBrowser() {
 export async function qChart() {
   return get('/api/chart')
 }
+
+export async function qMap() {
+  return get('/api/map')
+}

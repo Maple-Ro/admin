@@ -1,18 +1,22 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 import styles from './map.less';
 import createG2 from 'g2-react';
 import G2 from 'g2';
-import axios from 'axios';
-import {apiURL} from '../../../utils/config'
 import world from '../../../../assets/world.geo.json'
+class MyMap extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: props.data
+    }
+  }
 
-const MyMap = React.createClass({
-  componentDidMount: function () {
+  componentDidMount() {
     const Frame = G2.Frame;
     const Stat = G2.Stat;
     let map = [];
-    const mapData = world;
-    const features = mapData.features;
+    const features = world.features;
     for (let i = 0; i < features.length; i++) {
       const name = features[i].properties.name;
       map.push({
@@ -35,14 +39,14 @@ const MyMap = React.createClass({
       min: [-27.187, -49.739] // 指定投影后最小的坐标点
     });
     chart.tooltip({
-      title: null
+      title: 'Shadowsocks Service Call Map'
     });
     const bgView = chart.createView();
     bgView.source(map);
     bgView.tooltip(false);
     bgView.axis(false);
     bgView.polygon()
-      .position(Stat.map.region('name', mapData))
+      .position(Stat.map.region('name', world))
       .color('name', function (val) {
         if (val === 'China') {
           return '#C7C7C7';
@@ -54,27 +58,29 @@ const MyMap = React.createClass({
         stroke: '#fff',
         lineWidth: 3
       });
-    axios.get(apiURL + '/api/map').then(function (response) {
-      const pointView = chart.createView();
-      pointView.source(response.data);
-      pointView.point().position(Stat.map.location('lon*lat'))
-        .size('count', 12, 1) //size(dim, max, min) 将数据值映射到图形的大小上的方法。size(dim, callback) size('', function(value){if... return .... })
-        .color('#ff5001')
-        .tooltip('city*count')
-        .shape('circle')
-        .style({
-          shadowBlur: 10,
-          shadowColor: '#ff5002'
-        });
-      chart.render();
-    });
-  },
+    const pointView = chart.createView();
+    pointView.source(this.state.data)
+    pointView.point().position(Stat.map.location('lon*lat'))
+      .size('count', 12, 1) //size(dim, max, min) 将数据值映射到图形的大小上的方法。size(dim, callback) size('', function(value){if... return .... })
+      .color('#ff5001')
+      .tooltip('city*count')
+      .shape('circle')
+      .style({
+        shadowBlur: 10,
+        shadowColor: '#ff5002'
+      });
+    chart.render();
+  }
+
   render() {
     return (
       <div>
-        <div id="chart"></div>
+        <div id="chart"/>
       </div>
     );
-  },
-});
+  }
+}
+MyMap.propTypes = {
+  data: PropTypes.array
+}
 export default MyMap;
