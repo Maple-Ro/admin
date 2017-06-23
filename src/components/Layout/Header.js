@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React  from 'react'
+import PropTypes from 'prop-types'
 import { Menu, Icon, Popover } from 'antd'
 import styles from './Header.less'
 import Menus from './Menu'
@@ -35,7 +36,7 @@ function Header ({ user, logout, switchSider, siderFold, isNavbar, menuPopoverVi
           <SubMenu style={{
             float: 'right',
           }} title={< span > <Icon type="user" />
-            {user.name} < /span>}
+            {user.name} </span>}
           >
             <Menu.Item key="logout">
               <a>注销</a>

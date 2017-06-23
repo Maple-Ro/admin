@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Button, Row, Form, Input } from 'antd'
 import { config } from '../../utils'
 import styles from './index.less'
