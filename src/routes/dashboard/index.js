@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import {connect} from "dva";
-import {Card, Col, Row} from "antd";
+import {Card, Col, Row,Calendar} from "antd";
 import {NumberCard, OS, Weather} from "./components";
 
 const bodyStyle = {
@@ -25,10 +25,15 @@ function Dashboard({dashboard}) {
           <OS {...os} />
         </Card>
       </Col>
-      <Col lg={6} md={24}>
+      <Col lg={8} md={24}>
         <Card bordered={false} {...bodyStyle}>
           <Weather {...weather} />
         </Card>
+      </Col>
+      <Col lg={8} md={24}>
+        <div style={{ width: '100%',backgroundColor:'#fff', padding:20, borderRadius: 4 }}>
+          <Calendar fullscreen={false}  />
+        </div>
       </Col>
     </Row>
     </div>

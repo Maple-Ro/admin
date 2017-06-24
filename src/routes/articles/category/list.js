@@ -1,6 +1,3 @@
-/**
- * Created by stanley on 2017/6/16 0016.
- */
 import {Button} from 'antd';
 import React from "react";
 import PropTypes from 'prop-types'
