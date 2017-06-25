@@ -23,7 +23,7 @@ const {query} = location;
 Post.PropTypes = {
   articles: PropTypes.object,
   location: PropTypes.object,
-  dispatch: PropTypes.object,
+  dispatch: PropTypes.func,
   loading: PropTypes.bool
 }
 

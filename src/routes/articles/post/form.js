@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import DraftEditor from '../../../components/Editor/MyEditor'
-import {Form, Select, Switch, Row, Col, Input, Button} from 'antd'
+import {Form, Select, Switch, Row, Col, Input, Button,Affix} from 'antd'
+import {routerRedux} from 'dva/router';
 const FormItem = Form.Item;
 
 class MyForm extends React.Component {
@@ -12,7 +13,7 @@ class MyForm extends React.Component {
   render() {
     const formItemLayout = {
       labelCol: {span: 5},
-      wrapperCol: {span: 16},
+      wrapperCol: {span: 10},
     };
     const formItemLayout2 = {
       labelCol: {span: 3},
@@ -61,7 +62,15 @@ class MyForm extends React.Component {
     return (
       <div>
         <Form layout="vertical" onSubmit={handleSubmit}>
-          <FormItem label="Title" hasFeedback key="Title" colon>
+          <Affix  onChange={affixed => console.log(2,affixed)} style={{textAlign:'right',position: 'absolute', top: 0, right: 20, zIndex:999}}>
+            <Button ghost   size="large" style={{marginRight:10}} onClick={e=>{
+              dispatch(routerRedux.push({
+                pathname: '/articles/list',
+              }))
+            }}>Back</Button>
+            <Button type="primary" htmlType="submit" size="large">Submit</Button>
+          </Affix>
+          <FormItem label="Title" hasFeedback key="Title" colon {...formItemLayout}>
             {getFieldDecorator('title', {
               initialValue: item.title,
               rules: [{required: true, message: 'Title is required!'}]
@@ -112,7 +121,7 @@ class MyForm extends React.Component {
               </FormItem>
             </Col>
           </Row>
-          <FormItem label="Content" key="Content" colon>
+          <FormItem label="Content" key="Content" colon style={{minHeight:300}}>
             {getFieldDecorator('content', {
               initialValue: item.content,
               rules: [{required: true, message: 'content is required!'}]
@@ -121,9 +130,7 @@ class MyForm extends React.Component {
             )}
             <DraftEditor {...editorProps}/>
           </FormItem>
-          <FormItem>
-            <Button type="primary" htmlType="submit" size="large">Submit</Button>
-          </FormItem>
+
         </Form>
       </div>)
   }
@@ -132,7 +139,7 @@ MyForm.propTypes = {
   form: PropTypes.object.isRequired,
   cateList: PropTypes.array,
   tagsList: PropTypes.array,
-  dispatch: PropTypes.object,
+  dispatch: PropTypes.func,
   item: PropTypes.object,
 };
 
