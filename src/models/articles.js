@@ -61,7 +61,7 @@ export default {
       yield put({type: 'query', payload: {page}});
     },
     *create({payload}, {call, put}){
-      yield put({type: 'hideModal'})
+      // yield put({type: 'hideModal'})
       const {data} = yield call(create, payload);
       if (data.success) {
         message.success('save success', 1);
@@ -69,7 +69,7 @@ export default {
       }
     },
     *update({payload}, {select, call, put}){
-      yield put({type: 'hideModal'})
+      // yield put({type: 'hideModal'})
       const id = yield select(({articles}) => articles.currentItem._id)
       const newArticle = {...payload, id}
       const data = yield call(update, newArticle)
@@ -154,6 +154,9 @@ export default {
       return {
         ...state, tagsList
       }
+    },
+    editItem(state, action){
+      return {...state, ...action.payload}
     }
   }
 }

@@ -46,14 +46,28 @@ function Articles({location, dispatch, articles, loading}) {
       })
     },
     onEditItem (item) {
+      // dispatch({
+      //   type: 'articles/showModal',
+      //   payload: {
+      //     modalType: 'update',
+      //     currentItem: item,
+      //     isView: false
+      //   },
+      // })
+      //更新state，接受当前编辑项
       dispatch({
-        type: 'articles/showModal',
+        type: 'articles/editItem',
         payload: {
-          modalType: 'update',
-          currentItem: item,
-          isView: false
+          currentItem: item
         },
       })
+      dispatch(routerRedux.push({
+        pathname: '/articles/post',
+        query:{
+          type:'edit'
+        }
+      }))
+
     },
     onViewItem (item) {
       dispatch({
@@ -82,12 +96,22 @@ function Articles({location, dispatch, articles, loading}) {
       }))
     },
     onAdd () {
+      // dispatch({
+      //   type: 'articles/showModal',
+      //   payload: {
+      //     modalType: 'create',
+      //   },
+      // })
+      //清空state内已有的项
       dispatch({
-        type: 'articles/showModal',
+        type: 'articles/editItem',
         payload: {
-          modalType: 'create',
+          currentItem: {}
         },
       })
+      dispatch(routerRedux.push({
+        pathname: '/articles/post',
+      }))
     }
   };
   //表单model

@@ -11,6 +11,7 @@ module.exports = [
     clickable:true,
     child:[
       {key:'list',name:'Article List', icon:'bars'},
+      {key:'post',name:'Article Post', icon:'bars'},
       {key:'category',name:'Category List', icon:'bars'},
       {key:'tag',name:'Label Tag', icon:'bars'}
     ]
