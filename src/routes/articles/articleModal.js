@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Input, Modal, Select, Switch} from 'antd'
+import {Form, Input, Modal, Select, Switch, Row, Col} from 'antd'
 import DraftEditor from '../../components/Editor/MyEditor';
 const FormItem = Form.Item;
 const modal = ({
@@ -54,17 +54,17 @@ const modal = ({
    * @type {{labelCol: {span: number}, wrapperCol: {span: number}}}
    */
   const formItemLayout = {
-    labelCol: {
-      span: 3,
-    },
-    wrapperCol: {
-      span: 5,
-    },
+    labelCol: { span: 5 },
+    wrapperCol: { span: 16 },
+  };
+  const formItemLayout2 = {
+    labelCol: { span: 3 },
+    wrapperCol: { span: 12 },
   };
 
   const formTitleLayout = {
     labelCol: {
-      span: 3,
+      span: 6,
     },
     wrapperCol: {
       span: 10,
@@ -106,8 +106,8 @@ const modal = ({
 
   return (
     <Modal {...modalOpts}>
-      <Form layout="horizontal">
-        <FormItem label="Title" hasFeedback key="Title">
+      <Form layout="vertical">
+        <FormItem label="Title" hasFeedback key="Title" colon>
           {getFieldDecorator('title', {
             initialValue: item.title,
             rules: [{required: true, message: 'Title is required!'}]
@@ -115,42 +115,50 @@ const modal = ({
             <Input placeholder="Enter the title"/>
           )}
         </FormItem>
-        <FormItem label="Category" hasFeedback key="Category">
-          {getFieldDecorator('category', {
-            initialValue: item.category,
-            rules: [{required: true, message: 'Category is required!'}]
-          })(
-            <Select {...SelectProps}>
-              {cateOptionLists}
-            </Select>
-          )}
-        </FormItem>
-        <FormItem label="State" key="State">
-          {getFieldDecorator('state', {
-            valuePropName: 'checked',
-            initialValue: item.state
-          })(
-            <Switch checkedChildren={'发表'} unCheckedChildren={'草稿'}/>
-          )}
-        </FormItem>
-        <FormItem label="Tags" hasFeedback key="Tags">
-          {getFieldDecorator('tags', {
-            initialValue: item.tags,
-            rules: [{message: 'Tags is required!', type: 'array'}]
-          })(
-            <Select
-              placeholder="Enter or select a tag"
-              mode="tags"
-              dropdownMenuStyle={{maxHeight: 200, overflow: 'auto'}}
-              maxTagTextLength={10}
-              onChange={tagsHandleChange}
-              tokenSeparators={[' ', ',']}
-            >
-              {tagsOptionList}
-            </Select>
-          )}
-        </FormItem>
-        <FormItem label="Content" key="Content">
+        <Row  gutter={24}>
+          <Col lg={8} md={24}>
+              <FormItem label="Category" hasFeedback key="Category" {...formItemLayout} colon>
+                {getFieldDecorator('category', {
+                  initialValue: item.category,
+                  rules: [{required: true, message: 'Category is required!'}]
+                })(
+                  <Select {...SelectProps}>
+                    {cateOptionLists}
+                  </Select>
+                )}
+              </FormItem>
+          </Col>
+          <Col lg={8} md={24}>
+            <FormItem label="Tags" hasFeedback key="Tags" {...formItemLayout2} colon>
+              {getFieldDecorator('tags', {
+                initialValue: item.tags,
+                rules: [{message: 'Tags is required!', type: 'array'}]
+              })(
+                <Select
+                  placeholder="Enter or select a tag"
+                  mode="tags"
+                  dropdownMenuStyle={{maxHeight: 200, overflow: 'auto'}}
+                  maxTagTextLength={10}
+                  onChange={tagsHandleChange}
+                  tokenSeparators={[' ', ',']}
+                >
+                  {tagsOptionList}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col lg={8} md={24}>
+              <FormItem label="State" key="State" {...formItemLayout2} colon>
+                {getFieldDecorator('state', {
+                  valuePropName: 'checked',
+                  initialValue: item.state
+                })(
+                  <Switch checkedChildren={'发表'} unCheckedChildren={'草稿'}/>
+                )}
+              </FormItem>
+          </Col>
+        </Row>
+        <FormItem label="Content" key="Content" colon>
           {getFieldDecorator('content', {
             initialValue: item.content,
             rules: [{required: true, message: 'content is required!'}]

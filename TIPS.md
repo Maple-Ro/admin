@@ -4,4 +4,9 @@
  > http://api.asilu.com/#weather
  #### dva-loading:
  > app use creatingloading(), app's loading is undefined
+ 
+ ###Plans
+ + Dashboard待办事项等
+ + 天气面板
+ + 。。。想到了继续加
 

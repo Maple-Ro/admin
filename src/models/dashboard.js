@@ -64,6 +64,7 @@ export default {
     },
     *map({payload}, {call, put}){
       const {data} = yield call(qMap, parse(payload));
+      localStorage.setItem('map', JSON.stringify(data))
       yield put({type: 'mapInfo', payload: {map: data}})
     }
   },

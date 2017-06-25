@@ -1,5 +1,5 @@
 const webpack = require('atool-build/lib/webpack')
-
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = function (webpackConfig, env) {
   webpackConfig.babel.plugins.push('transform-runtime')
   webpackConfig.babel.plugins.push(['import', {
@@ -19,6 +19,24 @@ module.exports = function (webpackConfig, env) {
   } else {
     webpackConfig.babel.plugins.push('dev-expression')
     webpackConfig.entry = { index: './src/index.js' }
+    //模板文件导入hash过的静态资源
+    webpackConfig.plugins.push(
+      new HtmlWebpackPlugin({
+        template: './src/_index.html', // 源模板文件
+        filename: './index.html', // 输出文件【注意：这里的根路径是module.exports.output.path】
+        inject: true,
+        hash: true,
+        chunks: ["common",'index'] //index为entry中的配置项
+      })
+    );
+    //去除atool-build自带的file-loader
+    webpackConfig.module.loaders.forEach(function (e,i) {
+      let str = JSON.stringify(e);
+      if(str.indexOf("file?") !== -1){
+        webpackConfig.module.loaders.splice(i,1);
+      }
+
+    });
   }
 
   // Don't extract common.js and common.css

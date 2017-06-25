@@ -12,7 +12,7 @@ class MyMap extends React.Component {
     }
   }
 
-  componentDidMount() {
+   componentDidMount() {
     const Frame = G2.Frame;
     const Stat = G2.Stat;
     let map = [];
@@ -59,7 +59,8 @@ class MyMap extends React.Component {
         lineWidth: 3
       });
     const pointView = chart.createView();
-    pointView.source(this.state.data)
+    let data = this.state.data.length>0 ? this.state.data : JSON.parse(localStorage.getItem('map'));
+    pointView.source(data)
     pointView.point().position(Stat.map.location('lon*lat'))
       .size('count', 12, 1) //size(dim, max, min) 将数据值映射到图形的大小上的方法。size(dim, callback) size('', function(value){if... return .... })
       .color('#ff5001')

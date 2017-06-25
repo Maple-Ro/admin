@@ -20,7 +20,7 @@ const Chart = createG2(chart => {
   // chart.col('count', {
   //   alias: '请求次数'
   // });
-  chart.interval().position('ip*count');
+  chart.interval().position('ip*count').color('ip');
   // chart.interval().position(Stat.summary.count('count')).color('ip');
   chart.render();
 });
