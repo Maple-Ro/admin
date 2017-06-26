@@ -1,6 +1,5 @@
 // import axios from 'axios';
 import {message} from 'antd';
-// import {stringify} from 'qs';
 import{apiURL} from './config';
 import 'whatwg-fetch'
 //message 全局配置
@@ -58,12 +57,13 @@ function handleError(error) {
   }
   return { success: false }
 }
-export default function request(url, options) {
-  let headers = new Headers();
-  headers.append( 'Accept', 'application/json');
-  if(localStorage.getItem('token')) headers.append( 'X-Authorization', localStorage.getItem('token'));
 
-  return fetch(apiURL+url,{...options,headers:headers})
+
+export default function request(url, options) {
+  return fetch(apiURL+url,{...options, headers:{
+    'X-Authorization': localStorage.getItem('token'),
+    'Content-type': 'application/json; charset=UTF-8'
+  }})
     .then(res => {
       if (res.status >= 200 && res.status < 300) {
         return Promise.resolve(res)
@@ -74,20 +74,21 @@ export default function request(url, options) {
       return data
     }).catch(err => {
       console.log(err)
+      message.error(err, 2)
     })
 }
 
 export function get(url, options=null) {
   return request(url, {
     ...options,
-    method: 'GET',
-    mode:'cors',
-    credentials:'include'
+    method: 'GET'
   })
 }
 
 export function post(url, options=null) {
-  return request(url, {...options, method: 'POST',mode:'cors'})
+  const {data} = options;
+  return request(url, {
+    body: JSON.stringify(data), method: 'POST'})
 }
 
 export function put(url, options) {

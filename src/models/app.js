@@ -1,13 +1,10 @@
 import {login, logout} from '../services/app';
 import {parse} from 'qs';
-import Cookies from 'universal-cookie';
 
-const cookie = new Cookies();
 export default {
   namespace: 'app',
   state: {
-    // login: cookie.get('t') !== undefined,
-    login:sessionStorage.getItem('isLogin')==='true',
+    login:sessionStorage.getItem('isLogin')==='true'&&localStorage.getItem('token'),
     user: {
       name: 'Endless',
     },
@@ -28,10 +25,18 @@ export default {
   effects: {
     *login ({payload}, {call, put}) {
       yield put({type: 'showLoginButtonLoading'})
-      const {success, username,jwt} = yield call(login, parse(payload))
+      const {success, username, jwt} = yield call(login, parse(payload))
       if (success) {
-        sessionStorage.setItem('isLogin', 'true')
-        localStorage.setItem('token',JSON.stringify(jwt))
+        sessionStorage.setItem('isLogin', 'true');
+        localStorage.setItem('token',jwt);
+
+        yield put({type: 'dashboard/weather'});
+        yield put({type: 'dashboard/card'});
+        yield put({type: 'dashboard/os'});
+        yield put({type: 'dashboard/browser'});
+        yield put({type: 'dashboard/charts'});
+        yield put({type: 'dashboard/map'});
+
         yield put({
           type: 'loginSuccess',
           payload: {user: {name: username}}
@@ -42,7 +47,6 @@ export default {
     },
     *logout ({payload}, {call, put}) {
       const data = yield call(logout, parse(payload))
-      debugger
       if (data.data.success) {
         sessionStorage.removeItem('isLogin')
         localStorage.removeItem('token')

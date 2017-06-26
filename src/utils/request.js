@@ -53,11 +53,7 @@ export default function request(options) {
 
   return fetch(options).then((response) => {
     const {statusText, status} = response;
-    console.log('response:');
-    console.log(response);
     let data = response.data;
-    console.log('data:');
-    console.log(data);
     return {
       code: 0,
       status,

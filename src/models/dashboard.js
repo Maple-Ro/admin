@@ -1,4 +1,4 @@
-import {info, qWeather, qCard, qOs, qBrowser, qChart, qMap} from '../services/dashboard';
+import {qWeather, qCard, qOs, qBrowser, qChart, qMap} from '../services/dashboard';
 import {parse} from 'qs';
 // zuimei 摘自 http://www.zuimeitianqi.com/res/js/index.js
 
@@ -26,12 +26,14 @@ export default {
   },
   subscriptions: {
     setup ({dispatch}) {
-      dispatch({type: 'weather'});
-      dispatch({type: 'card'});
-      dispatch({type: 'os'});
-      dispatch({type: 'browser'});
-      dispatch({type: 'charts'});
-      dispatch({type: 'map'});
+      if(localStorage.getItem('token')){
+        dispatch({type: 'weather'});
+        dispatch({type: 'card'});
+        dispatch({type: 'os'});
+        dispatch({type: 'browser'});
+        dispatch({type: 'charts'});
+        dispatch({type: 'map'});
+      }
     },
   },
   effects: {
