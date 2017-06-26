@@ -1,15 +1,14 @@
 import React  from 'react'
 import PropTypes from 'prop-types'
 import styles from './cpu.less'
-import CountUp from 'react-countup'
 import {Card, Progress} from 'antd'
-const countUpProps = {
-  start: 0,
-  duration: 2.75,
-  useEasing: true,
-  useGrouping: true,
-  separator: ',',
-}
+// const countUpProps = {
+//   start: 0,
+//   duration: 2.75,
+//   useEasing: true,
+//   useGrouping: true,
+//   separator: ',',
+// }
 
 function OS ({ ram_percent, ram_usage, space_used, space_percent, cpu, data, staticInfo }) {
 

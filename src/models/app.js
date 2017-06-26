@@ -4,7 +4,7 @@ import {parse} from 'qs';
 export default {
   namespace: 'app',
   state: {
-    login:sessionStorage.getItem('isLogin')==='true'&&localStorage.getItem('token'),
+    login: sessionStorage.getItem('isLogin') === 'true' && localStorage.getItem('token'),
     user: {
       name: 'Endless',
     },
@@ -28,7 +28,7 @@ export default {
       const {success, username, jwt} = yield call(login, parse(payload))
       if (success) {
         sessionStorage.setItem('isLogin', 'true');
-        localStorage.setItem('token',jwt);
+        localStorage.setItem('token', jwt);
 
         yield put({type: 'dashboard/weather'});
         yield put({type: 'dashboard/card'});
@@ -46,7 +46,7 @@ export default {
       }
     },
     *logout ({payload}, {call, put}) {
-      const data = yield call(logout, parse(payload))
+      const data = yield call(logout)
       if (data.data.success) {
         sessionStorage.removeItem('isLogin')
         localStorage.removeItem('token')
