@@ -1,37 +1,37 @@
-import axios from 'axios';
+// import axios from 'axios';
 import {message} from 'antd';
-import {stringify} from 'qs';
+// import {stringify} from 'qs';
 import{apiURL} from './config';
-
+import 'whatwg-fetch'
 //message 全局配置
 message.config({
   top: 50
 });
 
-axios.defaults.baseURL = apiURL;
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
-//axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('Authorization')
-
-const fetch = (url, options) => {
-  const { method = 'get', data } = options
-  switch (method.toLowerCase()) {
-    case 'get':
-      return axios.get(url, { params: data })
-    case 'delete':
-      return axios.delete(url, { data })
-    case 'head':
-      return axios.head(url, data)
-    case 'post':
-      if(data instanceof FormData) return axios.post(url, data);
-      return axios.post(url, stringify(data))
-    case 'put':
-      return axios.put(url, stringify(data))
-    case 'patch':
-      return axios.patch(url, data)
-    default:
-      return axios(options)
-  }
-};
+// axios.defaults.baseURL = apiURL;
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
+// //axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('Authorization')
+//
+// const fetch = (url, options) => {
+//   const { method = 'get', data } = options
+//   switch (method.toLowerCase()) {
+//     case 'get':
+//       return axios.get(url, { params: data })
+//     case 'delete':
+//       return axios.delete(url, { data })
+//     case 'head':
+//       return axios.head(url, data)
+//     case 'post':
+//       if(data instanceof FormData) return axios.post(url, data);
+//       return axios.post(url, stringify(data))
+//     case 'put':
+//       return axios.put(url, stringify(data))
+//     case 'patch':
+//       return axios.patch(url, data)
+//     default:
+//       return axios(options)
+//   }
+// };
 
 function checkStatus(res) {
   if (res.status >= 200 && res.status < 300) {
@@ -58,20 +58,36 @@ function handleError(error) {
   }
   return { success: false }
 }
-
 export default function request(url, options) {
-  return fetch(url, options)
-    .then(checkStatus)
-    .then(handelData)
-    .catch(handleError)
+  let headers = new Headers();
+  headers.append( 'Accept', 'application/json');
+  if(localStorage.getItem('token')) headers.append( 'X-Authorization', localStorage.getItem('token'));
+
+  return fetch(apiURL+url,{...options,headers:headers})
+    .then(res => {
+      if (res.status >= 200 && res.status < 300) {
+        return Promise.resolve(res)
+      }
+    }).then(res => {
+      return res.json()
+    }).then(data => {
+      return data
+    }).catch(err => {
+      console.log(err)
+    })
 }
 
 export function get(url, options=null) {
-  return request(url, {...options, method: 'get'})
+  return request(url, {
+    ...options,
+    method: 'GET',
+    mode:'cors',
+    credentials:'include'
+  })
 }
 
 export function post(url, options=null) {
-  return request(url, {...options, method: 'post'})
+  return request(url, {...options, method: 'POST',mode:'cors'})
 }
 
 export function put(url, options) {

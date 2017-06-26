@@ -62,7 +62,7 @@ class MyForm extends React.Component {
     return (
       <div>
         <Form layout="vertical" onSubmit={handleSubmit}>
-          <Affix  onChange={affixed => console.log(2,affixed)} style={{textAlign:'right',position: 'absolute', top: 0, right: 20, zIndex:999}}>
+          <Affix  onChange={affixed => console.log(2,affixed)} style={{textAlign:'right',top: 0, right: 20, zIndex:999}}>
             <Button ghost   size="large" style={{marginRight:10}} onClick={e=>{
               dispatch(routerRedux.push({
                 pathname: '/articles/list',

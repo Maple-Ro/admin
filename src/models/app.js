@@ -28,11 +28,10 @@ export default {
   effects: {
     *login ({payload}, {call, put}) {
       yield put({type: 'showLoginButtonLoading'})
-      const {success, username} = yield call(login, parse(payload))
+      const {success, username,jwt} = yield call(login, parse(payload))
       if (success) {
         sessionStorage.setItem('isLogin', 'true')
-        // let now = new Date(2017, 11, 17, 3, 24, 0);
-        // cookie.set('t', '1', {expires: now, path: '/', domain:'.localhost',httpOnly: true})
+        localStorage.setItem('token',JSON.stringify(jwt))
         yield put({
           type: 'loginSuccess',
           payload: {user: {name: username}}
@@ -46,7 +45,7 @@ export default {
       debugger
       if (data.data.success) {
         sessionStorage.removeItem('isLogin')
-        // cookie.remove('t')
+        localStorage.removeItem('token')
         yield put({type: 'logoutSuccess',})
       }
     },
