@@ -25,14 +25,21 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
       title: 'State',
       key: 'state',
       'width': 100,
-      render: (record) => record.state ? <span href="#" className={styles.paper_formal}>&nbsp;</span> :
-        <span href="#" className={styles.paper_draft}>&nbsp;</span>
+      render: record => record.state ? <span className={styles.paper_formal}>&nbsp;</span> :
+        <span className={styles.paper_draft}>&nbsp;</span>
     },
     {
       title: 'Category',
       dataIndex: 'category',
       key: 'Category',
       width: 75
+    },
+    {
+      title:'Visits',
+      dataIndex:'visits',
+      key:'Visits',
+      width:60,
+      render: record =><span>{!!record?record:0}</span>
     },
     {
       title: 'Title',
@@ -44,7 +51,7 @@ function List({dataSource, loading, pagination, onPageChange, onDeleteItem, onEd
       title: 'Tags',
       dataIndex: 'tags',
       key: 'tags',
-      width: 200,
+      width: 100,
       render: (text, record) => {
         let preColor = ['pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple', 'yellow'];
        return record.tags.map(d => {
